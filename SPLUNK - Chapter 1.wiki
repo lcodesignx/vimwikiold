@@ -1,0 +1,10 @@
+== Setting Up an AWS Environment ==
+
+    * Create a new VPC dedicated to this training with external access
+    * Deploy an Ubuntu 18.04 VM with at least 2 CPU cores, 4GB of RAM, and sufficient storage for Splunk 
+      to run and collect data (around 5GB is fine for the lab examples)
+    * [[Create]] a security group allowing external access to your instance that we used to generate data
+
+== Splunk Installation ==
+
+    * Docker compose file at fedora:/home/lupera1/code/docker-projects/splunk/src

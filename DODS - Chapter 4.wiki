@@ -1,0 +1,144 @@
+= Contents =
+        - [[#Introduction to Docker Compose|Introduction to Docker Compose]]
+        - [[#Writing docker-compose yml Files|Writing docker-compose yml Files]]
+        - [[#Creating Multi-container Applications|Creating Multi-container Applications]]
+        - [[#Making Development Easier|Making Development Easier]]
+        - [[#Defining Networks and Volumes|Defining Networks and Volumes]]
+        - [[#Distributed Application Bundles and Stacks|Distributed Application Bundles and Stacks]]
+
+== Introduction to Docker Compose ==
+
+    *Docker Compose*
+    
+    * Tool to define applications and allow of the settings to run them
+    * Build application "Stacks" to deploy on a Swarm
+    * Used on desktops and development servers to build and test aplications
+    * Can be sued as a lightweight orchestration tool in single server environments
+    * Entire application is defined in a single docker-compose.yml file
+    * docker-compose can start and stop and entire application
+    * create a single depoyment package for consistent deployments on a Docker Swarm
+
+== Writing docker-compose yml Files ==
+
+    *Using docker-compose.yml*
+    
+    * docker-compose.yml defines entire application
+    * Sections match the docker * create commands from Docker Swarm
+    * Each docker-compose.yml file specifies the version being used
+    * Full documentation at https://docs.docker.com/compose/compose-file/
+    * Start an application:
+        `docker-compose up -d`
+        `docker-compose ps`
+        `docker-compose down`
+
+== Creating Multi-container Applications ==
+
+    *Introduction*
+    
+    * Most applications use multiple services
+    * Each service can define its own images, environment variables, published porst, etc
+    * Secrets and evnironment files can be shared between services
+    * A docker-compose.yml file can ensure that everyone is using the same test environment
+    * Create an application:
+    
+    *Dockerfile*
+    
+        `FROM owncloud:10.0.3`
+        `RUN apt-get update && apt-get install -y smbclient`
+        
+    *docker-compse*
+    
+        `version: "3.3"`
+    
+        `secrets:`
+            `mysql_password:`
+                `file: /fs/docker_volume/multi-app-demo/mysql_password.txt`
+
+        `services:`
+            `owncloud:`
+                `image: owncloud:10.0.3`
+                `ports:`
+                `- 80:80`
+
+            `mysql:`
+                `image: mysql:5.7`
+                `secrets:`
+                    `- source: mysql_password`
+                      `target: mysql_password`
+                `environment:`
+                    `- MYSQL_DATABASE=owncloud`
+                    `- MYSQL_USER=owncloud`
+                    `- MYSQL_PASSWORD_FILE=/run/secrets/mysql-password`
+                    `- MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-password`
+
+== Making Development Easier ==
+
+    *Multiple Configuration Files*
+    
+    * Use multiple -f flags to define multiple configuration files
+    * Use separate confiurations to define differences in development, test, and production
+    * Test configuration changes and/or use cases
+    * Specify services to run automated tests
+    * Additional files do not have to be in your project directory
+    * Using separate files:
+        `docker-compose -f docker-compose.yml -f docker-compose-smb.yml build`
+
+    *Project Name*
+    
+    * Objects created with Docker Compose are prefixed with the project name
+    * The prefix prevents applications from conflicting with each other
+    * The directory name that contains docker-compose.yml is used by default
+    * Manually set the project name with p
+    * Use different project names to run the same application multiple times
+    * Set the project name:
+        `docker-compose up -d`
+        `docker-compose -p owncloud up -d`
+        `docker-compose -p owncloud down`
+
+== Defining Networks and Volumes ==
+
+    *Networks*
+    
+    * Your test configuration should match the network layout of your production system
+    * Networks default to the "bridge" driver on a single host and the "overlay" driver 
+      on a Docker swarm
+    * Docker will create new networks prefixed with the project name
+    * Pre-existing networks can be specified
+
+    *Volumes*
+    
+    * Named volumes can be specified in the "volumes" section
+    * The "driver" and "driver_opts" keys are analogous to the --driver and --opt flags
+
+== Distributed Application Bundles and Stacks ==
+
+    *Stacks*
+    
+    * A stack is a group of interrelated services that share dependencies, and can be 
+      orchestrated and scaled together
+    * Deploy a stack:
+        
+        `docker stack deploy -c docker-compose.yml owncloud`
+        `docker stack ls`
+        `docker service ls`
+        `docker stack ps owncloud`
+        `docker network ls`
+        `docker stack rm ownclod`
+
+    * Multiple configuration files:
+        
+        `docker-compose -f docker-compose.yml -f networks.yml config > stack.yml`
+        `docker stack deploy -c stack.yml owncloud`
+
+    *Deploy-specific Compose Keys*
+    
+    * Service deployment optinos are available under the deploy key
+    * Can set most of the options for Docker service create
+    * Full list is available at https://docs.docker.com/compose/compose-file/#deploy
+
+    *Distributed Application Bundles*
+    
+    * A single package that can be distributed to deploy stacks
+    * DAP files describe a stack using JSON
+    * DAB support in Docker is experimental
+    * Some features are missing

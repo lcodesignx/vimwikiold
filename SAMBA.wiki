@@ -1,0 +1,29 @@
+== Configuring a base samba server ==
+
+* Install the samba server package
+* Create a directory to share
+* Create a local linux user
+* Set linux permissions
+* Use `smbpasswd -a` to add a samba user account
+* Enable the share in `/etc/samba/smb.conf`
+* Use `systemctl start smb` to start the service
+* Use `firewall-cmd --add-service samba --permanent`
+* Open the firewall `firewall-cmd --reload`
+
+*smb.conf example*
+    `[samba]`
+    `comment = samba share`
+    `path = /samba`
+    `write list = username`
+    
+*Mounting samba shares*
+* Install the cifs-utils and samba-client rpm pkgs
+* Use `smbclient -L //samba-host` to discover shares
+* Use `mount -o username=sambauser //server/share /samba`
+* Make mount persistent through /etc/fstab, using the _netdev, username= and password= mount options
+
+*Example:*
+    `yum groups install 'Network File System Client'`
+    `smbclient -L //server`
+    `mount -o username=samba //server/share /samba`
+    fstab entry: `//server/share /samba cifs _netdev,username=name,password=pass 0 0`

@@ -1,0 +1,16 @@
+== Create Custom Indexes ==
+
+    * `splunk add index <name>`
+    * Optional parameters:
+        * -homePath <PATH>
+        * -coldPath <PATH>
+        * -thawedPath <PATH>
+     
+    * Monitor specific directories:
+        `splunk add monitor <DIRPATH> -index <NAME>`
+    * Configure Univeral Forwarder to connect to receiving indexer
+        `splunk add forward-server <HOSTNAME>:<LISTENING_PORT>`
+        `splunk add forward-server splunk:9997`
+     
+    * Configure Universal Forwarder to connect to a Deployment Server
+        `splunk set deploy-poll splunk:8089`

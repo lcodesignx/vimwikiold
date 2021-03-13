@@ -1,0 +1,72 @@
+== SCAPY ==
+
+*Commands:*
+
+    * ls() : (IP), (Ether), (ICMP), etc.
+    * Craft an ICMP echo request with the following: 
+      * An ethernet source address of `aa:bb:cc:dd:ee:ff`
+      * An ethernet destination address of `ff:ee:dd:cc:bb:aa`
+      * A source IP address of `192.168.1.1`
+      * An ICMP sequence number of `1234`
+
+*Procedure:*
+
+    * Assign a variable to custom packet 
+      `e = Ether()`
+    * Assign source address to thernet frame: 
+      `e.src = 'aa:bb:cc:dd:ee:ff'`
+    * Assign destination address to ethernet frame: 
+      `e.dst = 'ff:ee:dd:cc:bb:aa'`
+    * Assign IP address to IP packet (src & dest): 
+      `i = IP(src='192.168.1.1', dst='192.168.1.2')`
+    * Create custom ICMP packet and assign variable and sequence number: 
+      `icmp = ICMP(seq=1234)`
+    * Construct the custom frame with the ethernet IP and ICMP customization: 
+      `frame = e/i/icmp`
+    * Display custom frame: 
+      `frame`
+    * Convert hexadecimal to integer: 
+      `int(0x4d2)`
+    * Write custom frame to pcap file: 
+      `wrpcap('icmp.pcap', frame)`
+    * Examine record with tcpdump and tshark: 
+      `tcpdump -r icmp.pcap -nte`
+      `tshark -r icmp.pcap`
+      
+*Exercise:*
+
+    * Read the custom record icmp.pcap: 
+      `r = rdpcap('icmp.pcap')`
+    * Alter the value of the ICMP sequence number to 4321: 
+      `echoreq = r[0]`
+      `echoreq[ICMP].seq = 4321`
+    * Check what is the new hex and convert to int: 
+      `echoreq.seq`
+      `int(0x10e1)`
+    * Write new record to icmp2.pcap file: 
+      `wrpcap('icmp2.pcap', echoreq)`
+    * Examine the new record with tcpdump and tshark: 
+      `tcpdump -r icmp2.pcap -ntv`
+      `tshark -r icmp2.pcap -V`
+    * Force scapy to recompute any associated checksum whenever you change a value: 
+      `del echoreq[icmp].chksum`
+      `wrpcap('icmp.pcap', echoreq)`
+    * Examine record again and ensure checksum is correct: 
+      `tcpdump -r icmp.pcap -ntv`
+      `tshark -r icmp.pcap -V`
+      
+*Exercise:*
+
+    * First prepare tcpdump to sniff traffic from the loopback interface and only for ICMP traffic: 
+      `tcpdump -ntA -i lo 'icmp'`
+    * Prepare SCAPY to sniff traffic (place SCAPY in sniffing mode): 
+      `conf.L3socket = L3RawSocket`
+      `r = scniff(filter='icmp[0] = 8', count = 1, iface = 'lo')`
+    * Craft an ICMP echo request called packet (also places scapy configuration with socket support for the loopback interface: 
+      `conf.L3socket = L3RawSocket`
+      `packet = IP(dst = '127.0.0.1')/ICMP(type = 8, code = 0, id = 10, seq = 100)/'MESSAGE'`
+    * Send the custom packet: 
+      `send(packet)`
+    * Craft an ICMP echo reply: 
+      `response = IP(dst='127.0.0.1')/ICMP(type=0, code=0, id=10, seq=100)/'MESSAGE'`
+      `send(response)`

@@ -1,0 +1,29 @@
+== Working with Systemd-Journald ==
+
+    *Journald*
+    
+    * Journald logs kernel messages
+    * Journald writes to the journal. Does not persist between boots
+    * To read files from the journal, the `journalctl` command is used
+    * Messages related to authentication errors are found at: `/var/log/secure`
+    * Information that relates to selinux events can be found at: `/var/log/audit/audit.log`
+    * Rsyslogd configuration file: `/etc/rsyslog.conf`
+    * To change startup behavior of the rsyslogd service, create a snap-in file in `/etc/rsyslog.d`
+    * Commands:
+        `journalctl`
+        `journalctl --no-pager`
+        `journalctl -f`
+        `journalctl -n 20`
+        `journalctl -p err`
+        `journalctl --since yesterday`
+        `journalctl --since yesterday -p err`
+        `journalctl -o verbose`
+        `journalctl _SYSTEMD_UNIT=sshd.service`
+        `journalctl --dmesg`
+    * Making the journald journal permanent:
+        * `mkdir /var/log/journal`
+        * `chown root:systemd-journal /var/log/journal`
+        * `chmod 2755 /var/log/journal`
+        * `reboot or killall -USR1 systemd-journald`
+        * See messages since last reboot:
+            `journalctl -b`

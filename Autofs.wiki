@@ -1,0 +1,35 @@
+== Understanding automount ==
+
+In `/etc/auto.master` you'll identify the directory that automount should manage, and the file that is used for additional mount information.
+Entry example:
+    `/fs  /etc/auto.fs`
+
+In /etc/auto.fs you'll identify hte subdirectory on which to mount and what to mount exactly.
+Entry example:
+    `software   -rw     nfsserver:/share/software`
+    `docs      -rw     nfsserver:/share/docs`
+
+Ensure the autofs service is started and enabled
+
+    `systemctl enable --now autofs`
+
+Full Example
+
+    `showmount -e nfsserver`
+    `yum install autofs`
+    `systemctl enable --now autofs`
+    `vim /etc/auto.master`
+   ` vim /etc/auto.fs`
+    `systemctl restart autofs`
+
+Configue automount for home directories
+    Create NFS share:
+        `vim /etc/exports`
+        `/home/ldap     *(rw)`
+    Client configuration:
+        `showmount -e nfsserver`
+        `vim /etc/auto.master`
+            `/home/ldap     /etc/auto.ldap`
+        `vim /etc/auto.ldap`
+            `*  -rw     nfsserver:/home/ldap/&`
+        `systemctl restart autofs`

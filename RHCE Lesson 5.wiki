@@ -1,0 +1,268 @@
+= Contents =
+        - [[#Understanding Variables|Understanding Variables]]
+        - [[#Using Variables|Using Variables]]
+        - [[#Understanding Variable Precedence|Understanding Variable Precedence]]
+        - [[#Managing Host Variables|Managing Host Variables]]
+        - [[#Using Multi-valued Variables|Using Multi-valued Variables]]
+        - [[#Using Ansible Vault|Using Ansible Vault]]
+        - [[#Working with Facts|Working with Facts]]
+        - [[#Creating Custom Facts|Creating Custom Facts]]
+        - [[#Lab: Working with Variables and Facts|Lab: Working with Variables and Facts]]
+
+== Understanding Variables ==
+
+    * A variable is a label that is assigned to a specific value to make it easy to refer to that  value 
+      throughout the playbook
+    * Vaiables can be defined by administrators at different levels 
+    * A fact is a special type of vairable, that refers to a current state of an Ansible managed system
+    * Variables are particularly useful when dealing with managed hosts where specifics are different:
+        * Set a variable web_service on Ubuntu and Red Hat
+        * Refer to the variable web_service instead of the specific service name
+
+== Using Variables ==
+
+    * Variables can be set at different levels:
+        * In a playbook
+        * In inventory (deprecated)
+        * In inclusion files
+    * Vaiable names have some requirements:
+        * The name must start with a letter
+        * Variable names can only contain letters, numbers, and underscores
+    
+    *Defining Vaiables*
+    
+    * Variables can be defined in a vars block in the beginning of a playbook 
+      
+      `- hosts: all`
+        `vars:`
+          `web_package: httpd`
+          
+    * Alternatively, variables can be defined in a variable file, which will be included from the 
+      playbook 
+      
+      `- hosts: all`
+        `vars_files:`
+          `- vars/users.yml`
+
+    * After defining the variables, it can be used later in the playbook
+    * Notice that order does matter!
+    * Refere to a variable as {{ web_pakcage }}
+    * In conditional statemsnst (discussed later), no curly braces are needed to refer to a 
+      variable values:
+      * `when: "'not found' in command_result.err"`
+      * `{% if ansible_facts['devices']['sdb'] is defined %}`
+          `Secondary disk size: {{ ansible_facts['devices']['sdb']['size'] }}`
+    * If the variable is the first element, using quotes is mandatory!
+
+== Understanding Variable Precedence ==
+
+    *Understanding Variable Scope*
+    
+    * Variables can be set with different types of scope:
+        * Global scope: this is when a variable is set from inventory or the command line
+        * Play scope: this is applied when it is set from a play
+        * Host scope: this is applied when set in inventoyr or using a host variable 
+          inclusion file
+    * When the same variable is set at different levels, the mose specific level gets 
+      precedence
+    * When a variable is set from the command line , it will overwrite anything else 
+      `ansible-playbook site.yml -e "web_package=apache"`
+
+    *Understanding Built-in Variables*
+    
+    * Some variables are built in and cannot be used for anything else:
+    
+        * *hostvars*
+        * *inventory_hostname*
+        * *inventory_hostname_short*
+        * *groups*
+        * *group_names*
+        * *ansible_check_mode*
+        * *ansible_play_batch*
+        * *ansible_play_hosts*
+        * *ansible_version*
+
+== Managing Host Variables ==
+
+    *Using Host Variables*
+    
+    * Variables can be assigned to hosts and to groups of hosts
+    * The old way of doing so is through inventory, but this is now deprecated because it 
+      mixes two types of information in one file
+    * Insted, you should use directories to populate host and group variables
+
+    *Defining Host Variables Through Inventory*
+    
+    * A variable can be assigned directly to a host 
+      `[servers]`
+      `web1.example.com web_package=httpd`
+      
+    * Alternatively, variables ccan be set for host groups 
+      `[servers:vars]`
+      `web_package=httpd`
+
+    *Using Include Files*
+    
+    * To define host and host grouop variables, directories should be created in the 
+      current project directory
+    * Use ~/myproject/host_vars/web1.example.com to include host specific variables
+    * Use ~/myproject/group_vars/webservers to include host group specific variables
+    * Notice that you don't have to define variables in these directories in the playbook, 
+      they are picked up automatically
+
+== Using Multi-valued Variables ==
+
+    *Understanding Array and Dictionary*
+    
+    * Multi-valued variables can be used in playbooks
+    * When using a multi-valued variable, it can be written as an array (list), or as 
+      a dictionary (hash-map)
+    * Each of these has their own specific use cases
+
+    *Understanding Dictionary (HashMap)
+    
+    * Dictionaries can be written in two ways: 
+      
+      `users:`
+        `linda:`
+            `username: linda`
+            `shell: /bin/sh`
+        `lisa:`
+            `username: lisa`
+            `shell: /bin/sh`
+            
+    * Or as: 
+      
+      `users:`
+        `linda:{ username:'linda', shell:'/bin/bash' }`
+        `lisa:{ username:'lisa', shell:'/bin/bash' }`
+
+    *Using Dictionary*
+    
+    * To address items in a dictionary, you can use two notations:
+        * variable_name['key'], as in `users['linda']['shell']`
+        * variable_name.key, as in `users.linda.shell`
+    * You cannot use `loop` or `with_items` on dictionaries
+
+    *Using Array (list)*
+    
+    * Arrays provide a list of items, where each item can be addressed separately 
+      
+      `users:`
+      `- username: linda`
+        `shell: /bin/bash`
+      `- username: lisa`
+        `shell: /bin/sh`
+        
+    * Individual items in the array can be addressed, using the `{{ var_name[0] }}` notation
+    * To access all variables, you can use `with_items` or `loop`
+
+== Using Ansible Vault ==
+
+    *Dealing with Sensitive Data*
+    
+    * Some modules require sensitive data to be processed
+    * This may include webkeys, passwords, and more
+    * To process sensitive data in a secure way, Ansible Vault can be used
+    * Ansible Vault is used to encrypt and decrypt files
+    * To manage this process, the `ansibel-vault` command is used
+
+    *Creating an Encrypted File*
+    
+    * To create an encrypted file, use `ansible-vault create playbook.yml`
+    * This command wil prompt for a new vault password, and opens the file in `vim` for 
+      further editing
+    * As an alternative for entering passwords on the prompt, a vault password file may be 
+      used, but you'll have to make sure this file is protected in another way: 
+      `ansible-vault create --vault-password-file=vault-pass playbook.yml`
+    * To view a vault encrypted file, use `ansible-vault view playbook.yml`
+    * To edit, use `ansible-vault edit playbook.yml`
+    * Use `ansible-vault encrypt playbook.yml` to encrypt an existing file, and use 
+      `ansible-vault decrypt playbook.yml` to decrypt it
+    * To change a password on an existing file, use `ansible-vault rekey`
+
+    *Using Playbooks with Vault*
+    
+    * To run a playbook that accesses Vault encrypted files, you need to use the 
+      `--vault-id @prompt` option to be prompted for a password
+    * Alternatively, you can store the password a s a single-line string in a password file, and 
+      access that using the `--vault-password-file=vault-file` option
+
+    *Managing Vault Files*
+    
+    * When setting up projects with Vault encrypted files, it makes sense to use separate 
+      files to store encrypted and non-encrypted variables
+    * To store host or host-group related variable files, you can use the following 
+      structure: 
+      
+      `| - group_vars`
+      `| | --dbservers`
+      `|     | - vars`
+      `|     | - vault`
+
+    * This replaces the solution that was dicussed earlier, where all variabls are stored 
+      in a file with the name of the host or host group
+
+== Working with Facts ==
+
+    *Understanding Ansible Facts*
+    
+    * Ansible facts are variables that are automatically set and discovered by Ansible on 
+      managed hosts
+    * Facts contain information about hosts that can be used in conditionals
+    * For instance, before installing specific software you can check that a managed host runs 
+      a specific kernel version
+      
+    *Managing Fact Gathering*
+    
+    * By default, all playbooks perform fact gathering before running that actual plays
+    * You can run fact gathering in an ad hoc comman using the `setup` module
+    * To show facts, use the debug module to print the value of the ansible_facts variable
+    * Notice that in facts, a hierarchical relationship is hsown where you can use the 
+      dotted format to refer to a specific fact
+
+    *Displaying Fact Names*
+    
+    * In Ansible 2.4 and before, Ansible facts were stored as individual variables, such 
+      as `ansible_hostname` and `ansible_interfaces`
+    * In Ansible 2.5 and later, all facts are stored in one variable with the name 
+      `ansible_facts`, and referring to specific facts happens in a different way:
+      `ansible_facts['hostname']`
+      `ansible_facts['interfaces']`
+    * The old approach is referred to as "injecting facts as variables", and this behavior 
+      can be managed through the `inject_facts_as_vars` parameter
+
+    *Turning off Fact Gathering*
+    
+    * Disabling fact gathering may seriously speed up playbooks
+    * Use `gather_facts: no` in the play header to disable
+    * Even if fact gathering is disabled, it can be enabled again by running the `setup` 
+      module in a task
+
+== Creating Custom Facts ==
+
+    *Using Custom Facts*
+    
+    * Custom facts allow administrator to dynamically generate variables which are stored 
+      as facts
+    * Custom facts are stored in an ini or json file in the `/etc/ansible/facts.d` directory 
+      on the managed host 
+      * The name of these files must end in .fact
+    * Custom facts are stored in the ansible_facts.ansible_local variable
+    * Use `ansible hostname -m setup -a "filter=ansible_local"` to display local facts
+    * Notice hos fact filename and label are used in the fact
+
+    *Custom Facts Example File*
+    
+    `[localfacts]`
+    `package = vsftpd`
+    `service = vsftpd`
+    `state = started`
+    
+== Lab: Working with Variables and Facts ==
+
+    * Create a playbook that will first define local facts on the file servers. These 
+      facts should define the name of the smbd service, and the samba package
+    * Ensure that the first play copies these facts to the file servers
+    * Next, in the same playbook, use a second play that will install and enable the 
+      smbd service

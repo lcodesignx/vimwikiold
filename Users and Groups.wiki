@@ -1,0 +1,20 @@
+== Managing users and groups ==
+
+*Important file locations:*
+
+    * `/etc/defaults/useradd`
+    * `/etc/login.defs` : important default settings
+    * `/etc/skel` : populates user home directories
+    * `/etc/passwd` : stores user properties, includes system accounts and regular users
+    * `/etc/shadow` : stores password properties
+
+*Creating and managing groups:*
+
+    * `groupadd`
+    * `groupdel`
+    * `groupmod`
+    * `lid` : list user membership for a group
+
+*Check last password change date*
+
+    * `chage -l <USERNAME>`

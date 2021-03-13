@@ -1,0 +1,10 @@
+*Using OS Module*
+
+    `import os`
+    `cmd = 'ls -la /tmp`
+    `os.system(cmd)`
+    
+*Using suprocess module*
+
+    `import subprocess`
+    `subprocess.Popen(['ls', '-la', '/tmp'])`

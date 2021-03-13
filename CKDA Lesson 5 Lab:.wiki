@@ -1,0 +1,16 @@
+== Lesson 5: Managing Pod Basic Features ==
+
+    * Create a namespace with the name production. Use the declarative 
+      approach to do so:
+      
+        `kubectl create ns production -o yaml > lab5-ns.yml`
+        `kubectl create -f lab5-ns.yml`
+        `kubectl get ns | grep -i production`
+    
+    * In this namespace, run an nginx web server as a Pod using the name 
+      nginx-prod:
+      
+        `kubectl create --help`
+        `kubectl run --generator=run-pod/v1 nginx-prod --image=nginx -o=yaml > lab5.yml`
+        `kubectl create -f lab5.yml`
+        `kubectl get pods --all-namspaces`

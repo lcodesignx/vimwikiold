@@ -1,0 +1,81 @@
+= Contents =
+        - [[#Using Ad Hoc Commands|Using Ad Hoc Commands]]
+        - [[#Lab: Using Ad Hoc Commands|Lab: Using Ad Hoc Commands]]
+
+== Using Ad Hoc Commands ==
+
+    *Using Ad Hoc Commands*
+    
+    * To run tasks on Ansible, you'll typically want to use Playbooks
+    * A playbook is a YAML file in which tasks can be defined
+    * For some tasks, writing a playbook is just too much work
+    * In such cases, you can use Ad hoc commands
+    * Ad hoc commands are also useful for testing if your playbook was successful
+
+    *Ad Hoc Command Parameters*
+    
+    * The basic structure is `ansible hosts -m module [-a 'module arguments'] [-i inventory]`
+    * The `hosts` part specifies on which host the command should be performed
+    * The `module` parameter indicates which ansible module to use; following the module you'll 
+      specify module arguments
+    * If inventory is not specified, you'll need to specify the inventory as an argument
+    * An example of an ad hoc command is `ansible all -m user -a "name=demo"`
+    * And to verify the command worked, use `ansible all -m command -a "id demo"`
+
+    *Understanding Ansible Modules*
+    
+    * Ansible comes with lots of modules that allow you to perform specific tasks on 
+      managed hosts
+    * When using Ansible, you'll always use modules to tell Ansible what you want it to do, 
+      in ad hoc commands as well as in playbooks
+    * Many modules are provided with Ansible, if required you can develop your own modules
+    * Use `ansible-doc -l` for a list of modules currently available
+    * All modules work with arguments, `ansible-doc` will show which arguments are available 
+      and which are required
+    * Ansible modules are idempotent; which means that when running them again they'll give 
+      the same result and if a task has already been configured, they won't do it again
+
+    *Using ansible-doc to get Module Documentation*
+    
+    * The `ansible-doc` command provides authoritative documentation about modules
+    * Use `ansible-doc -l` for a list of all modules
+    * Use `ansible-doc modulename` to get the documentation for a specific module
+
+    *Understanding Module Status*
+    
+    * Modules are very actively developed by the community, and the status field in the 
+      module documentation indicates the current status
+    * *stableinterface*: the module is stable and safe to use
+    * *preview*: the module is in tech preview and its keywords may change
+    * *deprecated*: the module should not be used anymore, and will be removed in a future 
+      release
+    * *removed*: the module has been removed, and the documentation only still exists to 
+      help users migrate to its replacement
+
+    *Understanding Module Support Status*
+    
+    The supported_by field in ansible-doc indicates who is responsible for supporting a module:
+        * *Core*: the module is suported by the core Ansible developers
+        * *Curated*: the primary support responsibility is with partners and companies in 
+          the community. Proposed changes are reviewed by the core developers
+        * *Community*: support is completely within the community
+
+    *Introducing Essential Ansible Modules*
+    
+    * `ping`: verifies the ability to log in and that Python has been installed 
+        `ansible all -m ping`
+    * *service*: checks if a service is currently running 
+        `ansible all -m service -a "name=httpd state=started"`
+    * *command*: runs any command, but not through a shell 
+        `ansible -m command -a "/sbin/reboot -t now"`
+    * *shell*: runs arbitrary commands through a shell 
+        `ansible all -m shell -a set`
+    * *raw*: runs a command on a remote host without a need for Python
+    * *copy*: copies a file to the managed host 
+        `ansible all -m copy -a 'content="hello world" dest=/etc/motd"`
+
+== Lab: Using Ad Hoc Commands ==
+
+    * Use the `ping` module in an ad hoc command to verify that all of your hosts have been 
+      set up successfully
+    * Use the appropriate ad hoc command to install Python on a host you want to manage

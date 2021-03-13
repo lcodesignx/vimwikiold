@@ -1,0 +1,38 @@
+== Practice Exam Questions ==
+
+1. Create a 2G swap partition which take effect automatically at boot-start, and it should not
+   affect the original swap partition.
+
+2. Configure your hostname, ip address, gateway and dns.
+
+3. Create a volume group and set 16M as a extends. And divided a volume group containing
+   50 extends on volume group lv, make it as ext4 file system, and mount it automatically
+   under /mnt/data.
+
+4. Find all files owned by harry, and copy it to catalog: /opt/dir
+
+5. Configure an HTTP server, which can be accessed through http://hostname.domain
+   Please download the release page from http://ip/dir/example.html
+
+6. Create a 512M partition, make it as ext4 file system, mounted automatically under
+   /mnt/data and which take effect automatically at boot-start.
+
+7. Download ftp://192.168.0.254/pub/boot/iso to /root, and mount it automatically under
+   /media/cdrom should take effect automatically at boot start.
+
+8. Configure the verification mode of your host account and the password as LDAP. And it
+   can ldapuser40. The password is set as "password". And the certificate login successfully
+   through
+   Can be downloaded from http://ip/dir/ldap.crt. After the user logs on, the user has not host
+   directory unless you configure the autofs in the following questions.
+
+9. Configure a task: plan to run echo hello command at 14:23 every day.
+
+10. Create a catalog under /home named admins. Its respective groups is requested to be the
+    admin group. The group users could read and write, while other users are not allowed to
+    access it. The files created by the users from the same group should also be the admin group.
+    
+11. Create a volume group and set 8M as a extends. Divide a volume group containing 50
+    extends on volume group lv (lvshare), make it as ext4 file system, and mount it
+    automatically under /mnt/data. And the size of the floating range should be set between 380M
+    and 400M. 

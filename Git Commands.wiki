@@ -1,0 +1,19 @@
+*Add files to gitignore & reset tracked files*
+    `git rm -r --cached .`
+    `git add .`
+    `git commit -m "fixed untracked files"`
+    
+*Discard unstaged changes*
+    `git stash save --keep-index --include-untracked`
+    `git stash drop`
+    
+*Set an upstream remote*
+    `git remote -v`
+    `git remote add upstream [URL]`
+    
+*Create branch and pull request process*
+    `git checkout -b [branch name]`
+    `git add --all`
+    `git commit -m "message"`
+    `git push origin [branch name]`
+    `create pull request`

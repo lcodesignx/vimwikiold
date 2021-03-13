@@ -1,0 +1,37 @@
+== Vehicle Management System ==
+
+*Transaction Requirements*
+
+Must have:
+    * transaction ID
+    * customer data
+    * vehicle data
+    * transaction price
+    * transaction start date (when it will take effect)
+    * transaction activation date (when transaction moved from draft to active)
+
+Questions:
+    * How to tag transaction as draft or active.
+    * Mechanism to change from draft to active.
+    * How to update price if data is transaction data is changed, (i.e. when vehicle data changes)
+    * Transaction vehicle data and start date can only change if transaction is still in draft mode. How do we implement that?
+
+*Manager Class:*
+
+* automatically load the list of available vehicles when the system starts up.
+
+* add vehicle by passing all parameters or from local file.
+    * vin number duplication
+
+* stores transactions to file
+
+* edit transaction
+    * vehicle data
+    * start date
+    * update price
+
+* performs validation for all transaction data:
+    * transaction id duplication
+    * start date is not in the past
+    * transaction cannot be activated if it is past transaction start date. (date comparison)
+    * no additional dates can be made to an activated transaction

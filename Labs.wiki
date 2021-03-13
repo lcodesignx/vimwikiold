@@ -1,0 +1,5 @@
+== Advanced Security Essentials - Enterprise Defender ==
+
+    * [[Section 1]]: Defensible Network Architecture
+    * [[Section 2]]: Penetration Testing Workshop
+    * [[Section 3]]: Security Operations Foundations

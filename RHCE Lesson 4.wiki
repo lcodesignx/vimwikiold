@@ -1,0 +1,64 @@
+= Contents =
+        - [[#Using YAML to Write Playbooks|Using YAML to Write Playbooks]]
+        - [[#Verifying Playbook Syntax|Verifying Playbook Syntax]]
+        - [[#Writing Multiple-Play Playbooks|Writing Multiple-Play Playbooks]]
+        - [[#Lab: Getting Started with Playbooks|Lab: Getting Started with Playbooks]]
+
+== Using YAML to Write Playbooks ==
+
+    *Why Playbooks*
+    
+    * Ad-hoc commands can be used to run one of a few tasks
+    * Ad-hoc commands are convenient to test, or when a complete managed 
+      infrastructure hasn't been set up yet
+    * Ansible Playbooks are usded to run multiple tasks against mangaged hosts in a 
+      scripted way
+    * In Playbooks, one or multiple plays are started:
+        * Each play runs one or more tasks
+        * In these tasks, different modules are used to perform the actual work
+    * Playbooks are written in YAML, and have the .yml or .yaml extension
+
+    *Running First Playbook*
+    
+    * Use `ansible-playbook vsftpd.yml` to run the playbook
+    * Notice that a successful run requires the inventory and become parameters to 
+      be set correctly, and also requires access to an inventory file
+    * The output of the `ansible-playbook` command will show what exactly has happened
+    * Playbooks in general are idempotent, which means that running the same playbook 
+      again should lead to the same result
+    * Notice there is no easy way to undo changes made by a playbook
+
+== Verifying Playbook Syntax ==
+
+    *Optimizing vim for YAML*
+    
+    * In `~/.vimrc` include the following setting:
+        * `autocmd File Type yaml setlocal ai ts=2 sw=2 et`
+    * Use `-v[vvv]` to increase output verbosity:
+        * `-v` will show task results
+        * `-vv` will show task results and task configuration
+        * `-vvv` also shows information about connections managed hosts
+        * `-vvvv` adds information about plug-ins, users used to run scripts and names 
+          of scripts that are executed
+    * Use the `-C` option to perform a dry run
+
+== Writing Multiple-Play Playbooks ==
+
+    *Understanding Plays*
+    
+    * A play is a series of tasks that are executed against selected hosts from the 
+      inventory, using specific credentials
+    * Using multiple plays allows running tasks on different hosts, using different 
+      credentials from the same playbook
+    * Within a play definition, excalation parameters can be defined:
+        * `remote_user`: the name of the remote user
+        * `become`: to enable or disable privilege escalation
+        * `become_method`: to allow using an alternative escalation solution
+        * `become_user`: the target user used for privilege escalation
+
+== Lab: Getting Started with Playbooks ==
+
+    * Write a playbook that installs the httpd package on a managed host
+    * Ensure that it is started and that the firewall is opened to allow acces to it
+    * Also create a file /var/www/html/index.html with some welcome text
+    * Lastly, write a playbook that will undo all modifications

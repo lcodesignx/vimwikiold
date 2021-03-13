@@ -1,0 +1,36 @@
+== Docker Commands ==
+
+* Run container interactively and start bash process: 
+  `docker run -it ubuntu /bin/bash`
+  
+* Find containers, start and attach to existing processes: 
+  `docker ps` or `docker ps -a`
+  `docker start [CONTAINER_ID/NAME]`
+  `docker attach [CONTAINER_ID/NAME]`
+  
+* Start container, detach, name the container and remove it after stopping container: 
+  `docker run -it -d --rm --name demo1 ubuntu /bin/bash`
+
+* Shared host file system (volume mounting): 
+  `docker run -it --rm --name vmdemo -v ${PWD}/docker_volumes:/dockervol ubuntu /bin/bash`
+
+* Change to working directory using the -w switch: 
+  `docker run -it --rm --name wdemo -v ${PWD}/docker_volumes:/dockervol -w /dockevol ubuntu /bin/bash`
+
+* Run docker image and detach from it while leaving it running: 
+  `docker run -d httpd`
+  * attach to running container interactively: `docker exec -it [CONTAINER_ID] /bin/bash`
+
+* Docker Port Forwarding and Logs: 
+  Port Forwarding: `docker run -d -p 8080:80 httpd`
+  Check logs: `docker logs [CONTAINER_ID]`
+  Inspect container settings: `docker inspect [CONTAINER_ID]`
+
+* Port forwarding and volume mapping: 
+  `docker run -d -p 8080:80 -v ${PWD}/docker_volumes:/usr/local/apache2/htdocs httpd`
+
+* Dockerfile and Docker-Compose commands: 
+  `docker build -t myphpapp:web .`
+  `docker-compose up`
+* Trigger rebuild:
+    * `docker-compose up build`

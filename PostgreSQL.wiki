@@ -1,0 +1,55 @@
+= Contents =
+        - [[#PostgreSQL Audit Commands|PostgreSQL Audit Commands]]
+        - [[#Database names and sizes|Database names and sizes]]
+        - [[#Database backups|Database backups]]
+        - [[#PostgreSQL master-replica failover|PostgreSQL master-replica failover]]
+
+== PostgreSQL Audit Commands ==
+*List all functions that have security definer option:*
+    `SELECT nspname, proname, proargtypes, prosecdef, rolname, proconfig`
+    `FROM pg_proc p`
+    `JOIN pg_namespace n`
+    `ON p.pronamespace = n.oid`
+    `JOIN pg_authid a`
+    `ON a.oid = p.proowner`
+    `WHERE prosecdef OR NOT proconfig IS NULL;`
+    
+== Database names and sizes ==
+* Bitbucket: 339MB PostgreSQL
+* Bamboo: 347MB postgres
+
+== Database backups ==
+*Backup:*
+    `pg_dump -U postgres <dbname> > dbname.sql`
+    `gzip dbname.sql`
+*Restore:*
+    `psql -U username -d dbname < dbname.sql`
+    or
+    `pg_restore -U username -d dbname -1 dbname.sql`
+    
+== PostgreSQL master-replica failover ==
+
+*Basic master configuration:*
+
+    `wal_level = logicatl or Hot_Standby`
+    `max_wal_senders = 4`
+    `max_replication_slots = 4`
+    
+*Basic replica configuration:*
+
+    `wal_level = logicatl or Hot_Standby`
+    `max_wal_senders = 4`
+    `max_replication_slots = 4`
+    `hot_standby = on`
+    `hot_standby_feedback = on`
+    
+*Failover commands:*
+
+    `./pg_ctl promote -D /var/lib/pgsql/data`
+    
+*Note:*
+Once the command is executed, it verifies any files available in the pg_wal folder, replays them, and then starts as a master node.
+It does not try to connect to the (old) master server, and hence the promotion is very fast. 
+If you are doing failover manually, then there is no requirement for a trigger file and you can run it in the terminal itself.
+Another note of caution: once the old master node comes back online, we have to ensure that it does not start acting as a master again so that no data loss occurs. 
+This can easily be controlled by either taking it off the network or ensuring that the IP visible to the applications is also moved over to the replicas.

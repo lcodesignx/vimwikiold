@@ -1,0 +1,32 @@
+== Creating Physical Volumes ==
+
+*Creating a physical volume:*
+
+    * Open root shell and type `parted /dev/sdc`.
+    * Type `print`. This will show the current partition table layout. There should be none at this point.
+    * Type `mklabel msdos`to set the MBR-compatible partition type. It could also be `mklabel gpt` for gpt partition.
+    * Type `mkpart` to start the procedure to create a partition, and enter `primary` when asked for the partition type.
+    * Type `xfs` to specify that the XFS file system should be used. When asked for the start position of the partition of the partition, type `1MiB`,
+      and when asked for the end, enter `1GiB`.
+    * Type `set 1 lvm on` to enable the LVM partition type on the partition.
+    * Now that the partition with the correct partition type has been created, type `quit` to close the `parted` interface.
+
+== LVM Creation Procedure Overview ==
+
+    * Create partition on devices (gdisk, parted, fdisk)
+    * Use `pvcreate /dev/sdb1` to create the physical volume
+    * Create the volume group: 
+      `vgcreate vgdata /dev/sdb1`
+    * Create the logical group: 
+      `lvcreate -n lvdata -L 1G vgdata`
+    * Create a file system: 
+      `mkfs.ext4 /dev/vgdata/lvdata`
+      
+== Resizing Logical Volumes ==
+
+    * Use `vgs` to verify availability in the volume group
+    * If required, use `vgextend` to add one or more PVS to the VG
+    * Use `lvextend -r -L +1G` to grow the LVM logical volume, including the file system
+    * Examples:
+        `vgextend vgdata /dev/sdc`
+        `lvextend -r -L +1020M /dev/vgdata/lvdata`

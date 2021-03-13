@@ -1,0 +1,15 @@
+== View Component Information with IPMItool ==
+
+You can view information about system hardware components. The software refers to these components as field-replaceable unit (FRU) devices.
+
+To read the FRU inventory information on these servers, you must first have the FRU ROMs programmed. After programming is done,
+you can see a full list of the available FRU data by using the fru print command, as shown in the following example 
+(only two FRU devices are shown in the example, but all devices would be shown).
+
+   `ipmitool -I lanplus -H <IPADDR> -U root -a fru print` 
+   
+* List iDrac users:
+    * `ipmitool user list 1`
+ 
+* Change root user password:
+    * `ipmitool user set password <ID>`

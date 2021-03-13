@@ -1,0 +1,3 @@
+== Database names and sizes ==
+* Confluence: 2946MB MySQL
+* Jira: 197.2MB MySQL

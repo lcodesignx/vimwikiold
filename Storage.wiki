@@ -1,0 +1,51 @@
+== Managing Storage ==
+
+*Boot partition and file system procedure:*
+
+    `parted /dev/sdb`
+    `print` : show current partition table
+    `mklabel` : 
+        * msdos: MBR
+        * gpt: GPT
+    `mkpart <partition-type> name <fs-type> start end` :
+        * partition-type: applies to MBR only and sets primary, logical, and extended partition
+        * name: arbitrary name, required for GPT
+        * fs-type: does not modify the filesystem, but sets some irrelevant files system dependent
+          metadata
+          
+    *Example:*
+        
+        `mkpart primary 1024MiB 2048MiB`
+        `udevadm settle`
+        
+*File Systems*
+*Commands:*
+    
+    `mkfs.xfs`
+    `mkfs.ext4`
+    
+*Understanding fstab*
+
+    * `/etc/fstab` : main configuration file to persistently mount partitions. content is used to 
+                   generate systemd mounts by the `systemd-fstab-generator` utility. to update
+                   systemd, make sure to use `systemctl daemon-reload` after editing `/etc/fstab`
+                   
+*Persistent Device Naming*
+
+    * UUID : automatically generated fore each device that contains a file system or anything similar
+    * Label : while creating the file system, the option -L can be used to set an arbitrary name that
+              can be used to mount the file system
+    * `/dev/disk` : location where unique device names are created
+
+*Command:*
+
+    `blkid`
+    `tune2fs --help`
+    `tune2fs -L articles /dev/sdb1`
+    `xfs_admin --help`
+    
+*Fstab entry example:*
+
+    `LABEL=articles     /articles   ext4    defaults    0 0`
+    
+    

@@ -1,0 +1,14 @@
+== RHCSA Objectives and Practice Labs ==
+
+    * [[Understand and use essential tools]]
+    * [[Operate running systems]]
+    * [[Configure local storage]]
+    * [[Create and configure file systems]]
+    * [[Deploy, configure, and maintain systems]]
+    * [[Manage basic networking]]
+    * [[Manage users and groups]]
+    * [[Manage security]]
+    * [[RHCSA Labs]]: exercises used to practice the rhcsa objectives
+    * [[Practice Exam]]: Exam questions
+    * [[Practice Exam A]]: Exam A
+    * [[Practice Exam B]]: Exam B

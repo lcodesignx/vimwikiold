@@ -1,0 +1,52 @@
+== Configuring Network ==
+
+*Commands:*
+
+    * `ip addr` : manage address properties
+    * `ip link` : show link properties
+    * `ip route` : manage route properties
+
+*Examples:*
+
+    `ip addr show` : shows current configuration
+    `ip addr add dev ens192 10.0.0.10/24`
+    `ip route show`
+    `ip route del default via <DEFAULT GATEWAY>`
+    `ip route add default via <DEFAULT GATEWAY>`
+    
+*DNS info locations:*
+
+    * `/etc/resolv.conf`
+    * `/etc/sysconfig/network-scripts/ifcfg-ens192`
+
+*Networking manager tools:*
+
+    * nmcli
+    * nmtui
+
+*NMCLI Commands:*
+
+    `nmcli -t -f RUNNING general`
+    `nmcli -t -f STATE general`
+    `nmcli connection up ethernet-ens33`
+    `nmcli connection show`
+    
+*Configure IP address, default gateway and DNS:*
+
+    `nmcli connection modify ens33 ipv4.addresses 192.168.1.10/24`
+    `nmcli connection modify ens33 +ipv4.addresses 10.0.0.10/24`
+    `nmcli connection modify ens33 ipv4.gateway 192.168.1.1`
+    `nmcli connection modify ens33 ipv4.method manual`
+    `nmcli connection modify ens33 ipv4.dns "8.8.8.8"`
+    `nmcli connection modify ens33 ipv4.dns-search "lco.net"`
+    `nmcli connection up ens33`
+    `nmcli connection edit ens33`
+    `set connection.autoconnect yes`
+    `nmcli connection show id ens33 | grep connection.autoconnect`
+    
+_Network manager service needs to be running_
+
+*Network testing tools:*
+
+    * ping : `ping -f <DESTINATION>`
+    * dig : `dig <DESTINATION>`

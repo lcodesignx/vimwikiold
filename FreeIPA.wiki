@@ -1,0 +1,58 @@
+== Install and setup freeIPA server ==
+
+*Prerequisites:*
+
+    * `hostnamectl set-hostname freeipa.lco.net`
+    * `echo -e "10.1.10.100\tfreeipa.lco.net\tfreeipa" | tee -a /etc/hosts`
+
+*Open required ports:*
+
+    * `firewall-cmd --add-service={freeipa-ldap,freeipa-ldaps,dns,ntp} --permanent`
+    * `firewall-cmd --reload`
+
+*Install FreeIPA:*
+
+    * `dnf module enable idm:DL1`
+    * `dnf distro-sync`
+    * `dnf install ipa-server ipa-server-dns`
+    * `ipa-server-install --setup-dns`
+    * `firewall-cmd --add-port={80,443,389,636,88,464,53}/tcp --permanent`
+    * `firewall-cmd --add-port={88,464,53,123}/udp --permanent`
+
+*Generate kerberos ticket:*
+
+    `kinit admin`
+    `klist`
+    
+*Access FreeIPA Web Interface:*
+
+    https://freeipa.lco.net
+    
+== Install and setup FreeIPA client ==
+
+*Add DNS Record:*
+
+    * `ipa dnsrecord-add lco.net hostname --a-rec 10.1.10.100`
+    
+*Setup DNS resolver and firewalld:*
+
+    * `search lco.net`
+    * `nameserver <freeipaaddress>`
+    * `firewall-cmd --add-service=dns --permanent`
+    * `firewall-cmd --reload`
+
+*Setup FQDN:*
+
+    * `hostnamectl set-hostname client.lco.net`
+    * `echo -e "10.1.10.190\tfreeipa.lco.net\tfreeipa" | tee -a /etc/hosts`
+    * `echo -e "10.1.10.100\tclient.lco.net\tclient" | tee -a /etc/hosts`
+    * `hostname -f`
+
+*Install FreeIPA Client:*
+
+    * `yum install -y freeipa-client ipa-admintools`
+    * `ipa-client-install --mkhomedir --force-ntpd`
+
+*Verify the client installation (server side):*
+
+    * `ipa host-show client.lco.net`

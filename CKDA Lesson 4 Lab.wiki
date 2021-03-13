@@ -1,0 +1,5 @@
+== Lesson 4 Lab: Using curl to Work With the API ==
+
+    * Use the Kubernetes Dashboard to create an Nginx deployment
+    * Use direct API access through curl to explore the API objects that have 
+      been created

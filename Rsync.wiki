@@ -1,0 +1,18 @@
+== Basic usage ==
+
+Archiving: includes owner, permissions, and data
+    rsync -a
+
+rsync options
+    * -r : will recursively synchronize entire directory tree
+    * -l : synchronizes symbolic links
+    * -p : preserves symbolic links
+    * -n : will do a dry run before actually synchronizing
+    * -a : uses archive mode
+    * -A : uses archive mode and also synchronizes ACLs
+    * -X : will synchronize SELinux context
+
+rsync extra args:
+    * --dry-run
+    * --dry-run -v
+    * --delete - removes deltas

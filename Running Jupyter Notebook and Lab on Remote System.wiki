@@ -1,0 +1,10 @@
+*Procedure*
+
+* Set Jupyter Password: 
+  `jupyter notebook password`
+* Launch the jupyter notebook session: 
+  `jupyter lab --port=9000 --no-browser --ip=127.0.0.1`
+* Create SSH tunnel from local system to remote: 
+  `ssh -N -f -L localhost:8888:localhost:9000 user@remote`
+* Open browser on localsystem: 
+  `http://localhost:8888`

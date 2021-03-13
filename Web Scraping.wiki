@@ -1,0 +1,8 @@
+
+| Syntax                     | Match Results                                                                    |
+|----------------------------|----------------------------------------------------------------------------------|
+| soup.select('div')         | All elements with 'div' tag                                                      |
+| soup.select('#some_id')    | Elements containing id = 'some_id'                                               |
+| soup.select('.some_class') | Elements containing class = 'some_class'                                         |
+| soup.select('div span')    | Any elements named span within a div                                             |
+| soup.select('div > span')  | Any elements named span *directly* within a div element, with nothing in between |

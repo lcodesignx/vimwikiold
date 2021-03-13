@@ -1,0 +1,23 @@
+== Understanding Kubernetes Management Interfaces ==
+
+* curl 
+* `kubectl` -> *API REST* -> etcd
+* Dashboard 
+
+*The Role of the Kubernetes API*:
+
+    * An Application Programmers Ineterface (API) is the interface between a client and a server
+    * An API is used to standarize how to access items provided by the server
+    * The Kubernetes API defines objects in a Kubernetes environment
+    * Any command that is used ina Kubernetes environment, is working in some way with the API
+    * Also, all that can be done in Kubernetes, can be explained by exploring API features
+
+*Working with Kubernetes*:
+
+    * The `kubectl` command line utility provides convenient administrator access, allowing you 
+      to run many tasks against the cluster
+    * Direct API access using commands, such as `curl`, allows developers to address the cluster 
+      using API calls from custom scripts
+    * The Kubernetes Dashboard can be installed to run on the Kubernetes master node  
+
+== Understanding Kubernetes Architecture ==

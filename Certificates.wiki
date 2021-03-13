@@ -1,0 +1,14 @@
+== Creating Self-Signed Certificates ==
+
+    *Procedure:*
+    
+    * Generate the CSR: 
+    
+      `sudo openssl req -new > new.ssl.csr`
+    
+    * Generate certificate: 
+    
+      `sudo openssl rsa -in priv.key.pem -out new.cert.key`
+      `sudo openssl x509 -in new.cer.csr -out new.cert.cert -req -signkey new.cert.key -days NNN`
+      `sudo cp new.cert.cert /etc/ssl/certs/server.crt`
+      `sudo cp new.cert.key /etc/ssl/private/server.key`

@@ -1,0 +1,46 @@
+== Files and Exceptions ==
+
+*Reading from a file*
+
+    `with open('filename') as file_object:`
+        `contents = file_object.read()`
+        `print(content)`
+    
+Read() returns an empty string when it reaches the end of the file. To remove the extra blank line use the following:
+    
+    `print(contents.rstrip())`
+    
+*Reading line by line*
+
+    `filename = 'pi_digits.txt'`
+    
+    `with open(filename) as file_object:`
+        `for line in file_object:`
+        `print(line.strip())`
+        
+*Making a list of lines from a file*
+When you use with, the file object returned by open() is only available inside the with block that
+contains it. If you want to retain access to a file's contents outsied the with block, you can store
+the file's lines in a list inside the block and then work with that list.
+
+    `filename = 'pi_digits.txt'`
+    
+    `with open(filename) as file_object:`
+        `lines = file_object.readlines()`
+        
+    `for line in lines:`
+        `print(line.strip())`
+        
+*Working with a file's contents*
+
+    `filename = 'pi_digits.txt'`
+    
+    `with open(filename) as file_object:`
+        `lines = file_object.readlines()`
+        
+    `pi_string = ''`
+    `for line in lines:`
+        `pi_string += line.rstrip()`
+        
+    `print(pi_string)`
+    `print(len(pi_string))`

@@ -1,0 +1,39 @@
+== Domain 1: Monitoring and Reporting ==
+    * [[EC2]]: Introduction to Amazon Elastic Compute Cloud (EC2)
+
+- [ ] Create and maintain metrics and alarms utilizing AWS monitoring services
+- [ ] Recoginze and differentiate performance and availability metrics
+- [ ] Perform the steps necessary to remediate based on performance and availability metrics
+
+== Domain 2: High Availability ==
+
+- [ ] Implement scalability and elasticity based on use case
+- [ ] Recoginze and differentiate highly available and resilient environments on AWS
+
+== Domain 3: Deployment and Provisioning ==
+
+- [ ] Identify and execute steps required to provision cloud resources
+- [ ] Identify and remediate deployment issues
+
+== Domain 4: Sotrage and Data Management ==
+
+- [ ] Create and manage data retention
+- [ ] Identify and implement data protection, encryption, and capacity planning needs
+
+== Domain 5: Security and Compliance ==
+
+- [ ] Implement and manage security policies on AWS
+- [ ] Impolement access controls when using AWS
+- [ ] Differentiate between the roles and responsibility within the shared responsibility model
+
+== Domain 6: Networking ==
+
+- [ ] Apply AWS networking features
+- [ ] Implement connectivity services of AWS
+- [ ] Gather and interpret relevant information for network troubleshooting
+
+== Domain 7: Automation and Optimization ==
+
+- [ ] Use AWS services and features to manage and asses resource utilization
+- [ ] Employ cost-optimization strategies for efficient resource utilization
+- [ ] Automate manual or repeatable process to minimize management overhead

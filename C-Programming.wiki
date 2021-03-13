@@ -1,0 +1,16 @@
+=== Storage Classes ===
+    * *auto* : default storage class
+        `{` 
+            `int mount;`
+            `auto int month;`
+        `}`
+    * *register* : define local variables that should be stored in a register instead of RAM
+        `{`
+            `register int miles;`
+        `}`
+    * *static* : instructs the compiler to keep a local variable in existence during the life time 
+               of the program instead of creating and destroying it each time it comes into and 
+               goes out of scope
+    * *extern* : used to give reference of a global variable that is visible to ALL the program 
+               files. The extern modifier is most commonly used when there are two or more files 
+               sharing the same global variables or functions.

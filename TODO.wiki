@@ -1,0 +1,49 @@
+TODO:
+
+* [ ] Create splunk index for atlassian logs
+* [ ] Set up httpd server for svn repos on RHEL7
+* [ ] Check if there are audit rules configured on the MINI-EDM systems
+* [ ] Move the GPU from old CDS system to the new one
+* [ ] Set up driver for the new CDS system and configure the three monitors
+
+DONE:
+
+* [X] Configure bamboo-agent (aces-vl58)
+* [X] Configure PostgreSQL replica
+* [X] Generate scap scans for RHEL7 systems (SEWIP)
+* [X] Rack and stack bamboo servers(3)
+* [X] Build bamboo servers(3)
+* [X] Collapse all atlassian admins groups into one
+* [X] Install RealVNC on atep-ldev01
+* [X] Work on create*netvm script
+* [X] Try to clear space on dda-blade66 bamboo*agent*home
+* [X] Change atlassian admin account password
+* [X] Move bamboo-agent-home for all remote agents to netapp
+* [X] Check scap score difference on new bamboo servers (93.26)
+* [X] Start ROD process for aces-vl22
+* [X] Submit amds-bamboo server builds
+* [X] Fix atlassian suite mounts that were changed on netapp.
+* [X] Fix authentication issue with bitbucket-bamboo link
+* [X] Finish STIG checklist for lw01 and lw05
+* [X] Setup new amds-bamboo servers as remote agents
+* [X] Migrate bitbucket database to master-replica instance
+* [X] Migrate bamboo database to master-replica instance. [[Steps]].
+* [X] Migrate Jira database to the new master-replica instance. [[Jira move steps.]]
+* [X] Install all versions of MSLRAD on SEWIP
+* [X] Remove SQL instance from Jira, Bitbucket, and Bamboo.
+* [X] Set up weekly backups for Jira on master-replica database instance.
+* [X] Install python c/c++ package manager on anaconda3 repository.
+* [X] STIG checklist for sewip. [[Steps_STIG]].
+* [X] Rebuild Sewip systems
+* [X] Check scap score for sewip-lw11, sewip-lw12 and sewip-lw13
+* [X] Submit sewip-lw11, 12 and 13 systems for approval
+* [X] Complete the Central Log Server SRG
+* [X] Fix script to create user account on sewip.
+* [X] install and configure elasticsearch for bitbucket data-center
+* [X] Upgrade Jira from 8.5.6 to 8.13.2
+* [X] Upgrade Bitbucket from 7.3.0 to 7.8.0
+* [X] Upgrade Confluence from 7.4.1 to 7.4.6
+* [X] Upgrade Bamboo from 7.0.3 to 7.2.1
+* [X] Change IPv4 method to Static on all Docker Enterprise Nodes
+* [X] Update Atlassian suite license on SEWIP
+* [X] Check Atlassian licenses

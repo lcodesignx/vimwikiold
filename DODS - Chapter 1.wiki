@@ -1,0 +1,78 @@
+= Contents =
+        - [[#Using Shared Storage|Using Shared Storage]]
+        - [[#Using Docker Overlay Networks|Using Docker Overlay Networks]]
+        - [[#Using Multiple Networks to Isolate Traffic|Using Multiple Networks to Isolate Traffic]]
+
+== Using Shared Storage ==
+
+    *Shared Storage*
+    
+    * Running services usually need data
+    * Examples: NFS, iSCSI, Amazon Elastic Block Storage, GCE Persistent Disk, 
+      Gluster, Ceph RBD, OpenStack Cinder
+    * Allows for container mobility
+    * Docker lets you mix and match storage providers
+
+    *REX-Ray*
+    
+    * REX-Ray was created by {code} by Dell EMC to provide a uniform way to manage 
+      container volumes locally and in the cloud
+    * REX-Ray driver automatically makes volumes that it knows about available as 
+      Docker volumes
+    * Docker storage providers can be used with nearly any orchestration system or 
+      none at all
+    * REX-Ray and Ceph only allow one container to access an RBD at a time  
+
+    *Create Volumes*
+    
+    * Commands:
+        
+        `docker volume create -d local-persist -o mountpoint=/mnt --name=demo`
+        `docker volume create --driver=local -o size=20 --name demo-vol`
+        `docker volume ls` 
+        `docker volume inspect demo-vol`
+        `docker container run -it --mount source=test,dst=/test --name bb busybox:1.27`
+        `docker volume rm test` 
+        
+== Using Docker Overlay Networks ==
+
+    *What Does an Overlay Network Do?*
+    
+    * Containers only connect to other containers on the same network
+    * Connecting to containers on other hosts requires that the container publish the 
+      needed ports
+    * Overlay networks allows containers running on different hosts to connect on a 
+      private network
+    * Required Ports:
+        * 4789 UDP
+        * 7946 TCP and UDP
+    * Create a network:
+        `docker network ls`
+        `docker network create -d overlay --attachable=true frontend`
+        
+    * Connect containers:
+        `docker container run --rm -it --network=frontend --name bb-$HOSTNAME busybox:1.27`
+      
+    *Encrypted Overlay Network*
+    
+    * By default, Docker overlay network traffic is sent in clear-text
+    * The encrypted option will encrypt all traffic sent within the network
+    * Useful for securely connecting services that are difficult to encrypt
+    * Encrypting an overlay reduces performance
+    * Create encrypted network:
+        `docker network create -d overlay --opt encrypted=true secure` 
+
+== Using Multiple Networks to Isolate Traffic ==
+
+    * Network separation can increase security
+    * Services such as databases should onlye be available to the containers that need them
+    * You can mix and match drivers to create the networks you need
+        
+        `docker network create -d overlay --attachable=true backend`
+        `docker network create -d overlay --attachable=true frontend`
+        `docker container run --rm -it --network=frontend --name bb-frontend busybox:1.27`
+        `docker container run --rm -it --network=backend --name bb-backend busybox:1.27`
+    
+    * Connect to another network:
+        
+        `docker network connect backend bb-frontend` 

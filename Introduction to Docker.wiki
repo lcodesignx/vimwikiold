@@ -1,0 +1,75 @@
+== Docker Images ==
+
+    *Working With Docker: Images and Containers*
+    
+    *Docker Architecture*: 
+        
+        * Docker deamon:
+            * It listens for Docker API requests and manages Docker objects
+            * Docker objects such as images, containers, networks, and volumes
+            * Communicate with other deamons to manage Docker Services
+        * Docker client: 
+            * This is the primary way that many Docker users interact with Docker
+            * The docker command uses the Docker API
+            * Docker client sends dokcer run commands to dockerd
+            * Docker client can communicate with more than one daemon
+        * Docker registries: 
+            * stored Docker images
+            * Docker Hub and Docker cloud are public registries
+            * Use Docker Datacenter (DDC), int includes Docker Trusted Registry (DTR)
+            * Docker pull or docker run commands, are the required images are pulled 
+              from your configured registry
+            * Docker store allows you to buy and sell Docker images or distribute them for 
+              free
+        * Docker objects: 
+            * Images:
+                * An image is a read-only template
+                * An image is based on another image, with some additional customization
+                * You might create your own images or you might only use those created by 
+                  others and published in a registry
+                * To build your own image, you create a Dockerfile with a simple syntax
+                * Each instruction in a Dockerfile creates a layer in the image
+            * Containers: 
+                * a container is a runnable instance of an image
+                * you can create, start, stop, move, or delete a container using the 
+                  Docker API or CLI
+                * you can control how isolated a container's network, storage, or other 
+                  underlying subsystems are from other containers or from the host machine
+                * a container is defined by its image as well as any configuration options 
+                  you provide to it when you create or start it
+                * Commands:
+                    * `docker create`
+                    * `docker start`
+                    * `docker stop`
+                    * `docker run`
+            * Services
+            * Volumes
+
+    *The Format of a Dockerfile*
+    
+    * Dockerfile defines what goes on in the environment inside your container
+    * Access to resources like networking interfaces and diks is virtualized inside the 
+      environment
+    * You need to map ports to the outside world, and be specific about what files you want 
+      to copy in to that environment
+    * You can sepecify the build of your app in the Dockerfile
+
+    *Writing a Dockerfile*
+    
+| FROM Ubuntu:latest                                 | Ubuntu base Image                    |
+|----------------------------------------------------|--------------------------------------|
+| RUN apt-get update && apt-get install redis_server | Install required S/W dependancy      |
+| EXPOSE 6379                                        | Ports listening for connection       |
+| ENTRYPOINT ["/usr/bin/redis_server"]               | command to run when container starts |
+
+
+    *Dockerfile Example*
+    
+    `#This is the base image`
+    `FROM ubuntu`
+    
+    `#dockerfile maintainer`
+    `LABEL maintainer=Alvaro`
+    
+    `#execute this command in container`
+    `CMD ["bash"]`

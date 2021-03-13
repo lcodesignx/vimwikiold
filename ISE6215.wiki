@@ -1,0 +1,105 @@
+= Contents =
+    - [[#Section 1: Defensible Network Architecture|Section 1: Defensible Network Architecture]]
+        - [[#Section 1: Defensible Network Architecture#1.1: Introduction to Defensible Network Architecture|1.1: Introduction to Defensible Network Architecture]]
+        - [[#Section 1: Defensible Network Architecture#1.2: Security Standards and Audit|1.2: Security Standards and Audit]]
+        - [[#Section 1: Defensible Network Architecture#1.3: Securing and Defending Network Infrastructure|1.3: Securing and Defending Network Infrastructure]]
+        - [[#Section 1: Defensible Network Architecture#1.4: Other Defense Infrastructure|1.4: Other Defense Infrastructure]]
+        - [[#Section 1: Defensible Network Architecture#1.5: Name Resolution Attacks and Defense|1.5: Name Resolution Attacks and Defense]]
+        - [[#Section 1: Defensible Network Architecture#1.6: Securing and Defending Public and Private Cloud Infrastructure|1.6: Securing and Defending Public and Private Cloud Infrastructure]]
+        - [[#Section 1: Defensible Network Architecture#1.7: Active Defense|1.7: Active Defense]]
+    - [[#Section 2: Penetration Testing Workshop|Section 2: Penetration Testing Workshop]]
+        - [[#Section 2: Penetration Testing Workshop#2.1: Introduction to Penetration Testing|2.1: Introduction to Penetration Testing]]
+        - [[#Section 2: Penetration Testing Workshop#2.2: Penetration Testing Scoping & Rules of Engagement|2.2: Penetration Testing Scoping & Rules of Engagement]]
+        - [[#Section 2: Penetration Testing Workshop#2.3: Online Reconnaissance & Offensive Counterintelligence|2.3: Online Reconnaissance & Offensive Counterintelligence]]
+        - [[#Section 2: Penetration Testing Workshop#2.4: Social Engineering|2.4: Social Engineering]]
+        - [[#Section 2: Penetration Testing Workshop#2.5: Network Mapping & Scanning Techniques|2.5: Network Mapping & Scanning Techniques]]
+        - [[#Section 2: Penetration Testing Workshop#2.6: Enterprise Vulnerability Scanning|2.6: Enterprise Vulnerability Scanning]]
+        - [[#Section 2: Penetration Testing Workshop#2.7: Network Exploitation Tools & Techniques|2.7: Network Exploitation Tools & Techniques]]
+        - [[#Section 2: Penetration Testing Workshop#2.8: Post-Exploitation & Pivoting|2.8: Post-Exploitation & Pivoting]]
+        - [[#Section 2: Penetration Testing Workshop#2.9: Web Application Exploitation Tools & Techniques|2.9: Web Application Exploitation Tools & Techniques]]
+        - [[#Section 2: Penetration Testing Workshop#2.10: Reporting and Debriefing|2.10: Reporting and Debriefing]]
+    - [[#Section 3: Security Operations Foundations|Section 3: Security Operations Foundations]]
+        - [[#Section 3: Security Operations Foundations#3.1: Security Operations Introduction|3.1: Security Operations Introduction]]
+        - [[#Section 3: Security Operations Foundations#3.2: Newtork Security Monitoring|3.2: Newtork Security Monitoring]]
+        - [[#Section 3: Security Operations Foundations#3.3: IP, TCP, and UDP Refresher|3.3: IP, TCP, and UDP Refresher]]
+        - [[#Section 3: Security Operations Foundations#3.4: Advanced Packet Analysis|3.4: Advanced Packet Analysis]]
+        - [[#Section 3: Security Operations Foundations#3.5: Network Intrusion Detection/Prevention|3.5: Network Intrusion Detection/Prevention]]
+        - [[#Section 3: Security Operations Foundations#3.6: Writing Signatures for Detection|3.6: Writing Signatures for Detection]]
+        - [[#Section 3: Security Operations Foundations#3.7: Network Forensics and More|3.7: Network Forensics and More]]
+        - [[#Section 3: Security Operations Foundations#3.8: Event Management Introduction|3.8: Event Management Introduction]]
+        - [[#Section 3: Security Operations Foundations#3.9: Continuous Monitoring|3.9: Continuous Monitoring]]
+        - [[#Section 3: Security Operations Foundations#3.10: Logging and Event Collection and Analysis|3.10: Logging and Event Collection and Analysis]]
+        - [[#Section 3: Security Operations Foundations#3.11: SIEM and Analytics|3.11: SIEM and Analytics]]
+    - [[#Section 4: Digital Forensics and Incident Response|Section 4: Digital Forensics and Incident Response]]
+        - [[#Section 4: Digital Forensics and Incident Response#4.1: DIFR Core Concepts: Digital Forensics|4.1: DIFR Core Concepts: Digital Forensics]]
+        - [[#Section 4: Digital Forensics and Incident Response#4.2: DIFR Core Concepts: Incident Response|4.2: DIFR Core Concepts: Incident Response]]
+        - [[#Section 4: Digital Forensics and Incident Response#4.3: Modern Digital Forensics & Incident Response|4.3: Modern Digital Forensics & Incident Response]]
+        - [[#Section 4: Digital Forensics and Incident Response#4.4: Widening the Net: Scaling and Scoping|4.4: Widening the Net: Scaling and Scoping]]
+    - [[#Section 5: Malware Analysis|Section 5: Malware Analysis]]
+        - [[#Section 5: Malware Analysis#5.1: Introduction to Malware Analysis|5.1: Introduction to Malware Analysis]]
+        - [[#Section 5: Malware Analysis#5.2: Malware Analysis Stages: Fully-Automated and Static Properties Analysis|5.2: Malware Analysis Stages: Fully-Automated and Static Properties Analysis]]
+        - [[#Section 5: Malware Analysis#5.3: Malware Analysis Stages: Interactive Behavior Analysis|5.3: Malware Analysis Stages: Interactive Behavior Analysis]]
+        - [[#Section 5: Malware Analysis#5.4: Malware Analysis Stages: Manual Code Reversing|5.4: Malware Analysis Stages: Manual Code Reversing]]
+    - [[#Section 6: Enterprise Defender Capstone|Section 6: Enterprise Defender Capstone]]
+        - [[#Section 6: Enterprise Defender Capstone#6.1: Enterprise Defender Capstone|6.1: Enterprise Defender Capstone]]
+
+= Section 1: Defensible Network Architecture =
+
+== 1.1: Introduction to Defensible Network Architecture ==
+== 1.2: Security Standards and Audit ==
+== 1.3: Securing and Defending Network Infrastructure ==
+== 1.4: Other Defense Infrastructure ==
+== 1.5: Name Resolution Attacks and Defense ==
+== 1.6: Securing and Defending Public and Private Cloud Infrastructure ==
+== 1.7: Active Defense ==
+* [[Section 1]]: Lab
+
+= Section 2: Penetration Testing Workshop =
+
+== 2.1: Introduction to Penetration Testing ==
+== 2.2: Penetration Testing Scoping & Rules of Engagement ==
+== 2.3: Online Reconnaissance & Offensive Counterintelligence ==
+== 2.4: Social Engineering ==
+== 2.5: Network Mapping & Scanning Techniques ==
+== 2.6: Enterprise Vulnerability Scanning ==
+== 2.7: Network Exploitation Tools & Techniques ==
+== 2.8: Post-Exploitation & Pivoting ==
+== 2.9: Web Application Exploitation Tools & Techniques ==
+== 2.10: Reporting and Debriefing ==
+* [[Section 2]]: Lab
+
+= Section 3: Security Operations Foundations =
+
+== 3.1: Security Operations Introduction ==
+== 3.2: Newtork Security Monitoring ==
+== 3.3: IP, TCP, and UDP Refresher ==
+== 3.4: Advanced Packet Analysis ==
+== 3.5: Network Intrusion Detection/Prevention ==
+== 3.6: Writing Signatures for Detection ==
+== 3.7: Network Forensics and More ==
+== 3.8: Event Management Introduction ==
+== 3.9: Continuous Monitoring ==
+== 3.10: Logging and Event Collection and Analysis ==
+== 3.11: SIEM and Analytics ==
+* [[Section 3]]: Lab
+
+= Section 4: Digital Forensics and Incident Response =
+
+== 4.1: DIFR Core Concepts: Digital Forensics ==
+== 4.2: DIFR Core Concepts: Incident Response ==
+== 4.3: Modern Digital Forensics & Incident Response ==
+== 4.4: Widening the Net: Scaling and Scoping ==
+* [[Section 4]]: Labs
+
+= Section 5: Malware Analysis =
+
+== 5.1: Introduction to Malware Analysis ==
+== 5.2: Malware Analysis Stages: Fully-Automated and Static Properties Analysis ==
+== 5.3: Malware Analysis Stages: Interactive Behavior Analysis ==
+== 5.4: Malware Analysis Stages: Manual Code Reversing ==
+* [[Section 5]]: Labs
+
+= Section 6: Enterprise Defender Capstone =
+
+== 6.1: Enterprise Defender Capstone ==
+* [[Section 6]]: Labs

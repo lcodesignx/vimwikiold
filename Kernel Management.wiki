@@ -1,0 +1,35 @@
+== Kernel Management ==
+
+*Kernel Modules:*
+
+    * Linux drivers are implemented as kernel modules
+    * Most kernel modules are loaded automatically through `initramfs` or `systemd-udev`.
+    * Use `modprobe`to manually load kernel modules.
+    * Use `lsmod` to list currently loaded kernel modules.
+
+*Adding and removing modules:*
+
+    `modprobe vfat` : loads the kernel module vfat and all its dependencies
+    `lsmod | grep vfat` : checks if the vfat module is installed
+    `modprobe -r vfat` : unloads the kernel module vfat.
+    `modinfo` : shows module parameters. to load and specify module parameters, edit `/etc/modprobe.conf` or the files in `/etc/modprobe.d`
+    
+*Kernel tuning through the* `/proc` *file system:*
+
+    * `/proc` is a filesystem that provides access to kernel information:
+        * PID directories
+        * Tunables in `/proc/sys`
+        * Status files 
+          
+*Understanding kernel parameters:*
+
+    * Use `echo` to write a value to any file in `/proc/sys` to change kernel performance parameters.
+    * Write the parameters to `/etc/sysctl.conf` to make them persistent.
+    * Use `sysctl -a` to show a list of all current settings. `sysctl.conf` entry example:
+        * `net.ipv4.ip_forward = 1`
+
+*Updating the linux kernel:*
+
+    * Linux kernels are not technically updated, a new kernel is installed beside the old kernel. This allows administrators to boot to the old
+      kernel in case anything goes wrong.
+    * Use either `yum update kernel` or `yum install kernel` to update the kernel

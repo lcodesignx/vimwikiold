@@ -1,0 +1,14 @@
+== Moving bamboo data to a different database ==
+
+*If database systems are:*
+
+    * the same (for example, moving from PostgreSQL to another PostgreSQL) OR
+    * compatible (for example, you are moving from SQL Server 2005 to SQL Server 2008)
+
+*Data can be moved manually. To migrate data:*
+
+    1. Stop the bamboo instance that is using the source database.
+    2. Manually transfer the data.
+    3. Go to <bamboo-home> and open the bamboo.cfg.xml file.
+    4. Provide the properties of the new database.
+    5. Start the bamboo instance.

@@ -1,0 +1,241 @@
+= Contents =
+        - [[#Securing and Defending Network Infrastructure|Securing and Defending Network Infrastructure]]
+        - [[#Lab 1.1: Initial Router Configuration|Lab 1.1: Initial Router Configuration]]
+        - [[#Lab 1.2: Audit Lab I|Lab 1.2: Audit Lab I]]
+        - [[#Lab 1.3: Securing AAA|Lab 1.3: Securing AAA]]
+        - [[#Lab 1.4: Securing Redundancy Protocols|Lab 1.4: Securing Redundancy Protocols]]
+        - [[#Lab 1.5: Log Infrastructure in Defense|Lab 1.5: Log Infrastructure in Defense]]
+        - [[#Lab 1.6: Defending Routing Protocols|Lab 1.6: Defending Routing Protocols]]
+        - [[#Lab 1.7: Final Router Hardening Steps / Final Router Audit|Lab 1.7: Final Router Hardening Steps / Final Router Audit]]
+        - [[#Lab 1.8: Active Defense -- Honeyports|Lab 1.8: Active Defense -- Honeyports]]
+
+== Securing and Defending Network Infrastructure ==
+
+*LABS:*
+
+== Lab 1.1: Initial Router Configuration ==
+
+1. `aaa new-model`
+2. `username admin privilege 15 password admin`
+3. `enable secret sec501`
+4. `hostname rtr01`
+5. `ip domain-name SEC501.com`
+6. `no ip domain lookup`
+7. `crypto key generate rsa general-keys modulus 2048`
+8. `int g1 `
+   `ip address 10.10.10.11 255.255.255.0 `
+   `no shut`
+9. `copy run start`
+
+== Lab 1.2: Audit Lab I ==
+
+*Task 1: Collect the Configuration*
+
+1. Start the tftp service: 
+   `service stftpd start`
+2. On rtr01 copy the running config to the tftp server: 
+   `copy startup-config tftp:`
+   `10.10.10.4`
+   `rtr-confg`
+
+Task 2: Audit the Configuration*
+
+1. Make directory for the lab: 
+   `mkdir rtraudit.1`
+   `cd rtraudit.1`
+2. Copy the router configuration to this new current directory: 
+   `cp /srv/tftp/rtr01-confg .`
+3. Run "rat" against that file: 
+   `rat ./rtr01-confg`
+
+== Lab 1.3: Securing AAA ==
+
+*Task 1: Demonstrate the Exposure-Captured Configuration File*
+
+1. Extract the password information from the configuration file: 
+   `grep enable /root/rtraudit.1/rtr-confg > targetpass`
+2. Execute python script to crack the password hash: 
+   `python Labs/501.1/ct5crack.py`
+
+*Task 2: Demonstrate the Exposure--Remote Attack*
+
+1. Run the following command on kali VM: 
+   `medusa -h 10.10.10.11 -u admin -P Labs/501.1/top20sshpasswords.txt -M telnet`
+   
+*Task 3: Remediation*
+
+1. `enable`
+2. `config t`
+3. `service password-encryption`
+4. `security passwords min-length 8`
+5. `username admin privilege 15 secret sanssec501`
+6. `login delay 2`
+7. `login block-for 60 attempts 4 within 60`
+8. `ip access-list standard ACL-MGT`
+9. `permit host 10.10.10.0 0.0.0.255`
+10. `deny any log`
+11. `line vty 0 15`
+12. `access-class ACL-MGT in`
+
+== Lab 1.4: Securing Redundancy Protocols ==
+
+*Task 1: Configure HSRP Redundancy*
+
+1. `enable`
+2. `config t`
+3. `int gig 1`
+4. `standby 1 ip 10.10.10.21`
+5. `standby 1 priority 120`
+6. `do copy run start`
+
+*Restore rtr02 configuration from backup*
+
+1. Kali VM: `cp Labs/501.1/rtr02-hsrplab /srv/tftp/`
+2. rtr02: `enable`
+3. `copy tftp: running-config`
+4. `10.10.10.4`
+5. `rtr02-hsrplab`
+6. `running-config`
+
+*Task 2: Attack HSRP Redundancy*
+
+1. Start wireshark on kali vm: 
+   `wireshark`
+   `eth0`
+   `host 224.0.0.2`
+2. `scapy`
+3. `ip = IP(src='10.10.10.4', dst='224.0.0.2')`
+4. `udp = UDP(sport=1985, dport=1985)`
+5. `hsrp = HSRP(group=1, priority=250, version=0, virtualIP='10.10.10.21')`
+6. `send(ip/udp/hsrp, iface='eth0', inter=3, loop=1)`
+
+*Task 3: HSRP Remediation*
+
+1. `enable`
+2. `config t`
+3. `standby 1 preempt`
+4. `standby 1 name SEC501`
+5. `standby 1 authentication md5 key-string SEC501PWD`
+6. `do copy run start`
+
+== Lab 1.5: Log Infrastructure in Defense ==
+
+*Task 1: Basic Syslog Configuration*
+
+1. Install Kiwi Syslog Server on Windows 10 VM
+2. Router configuration: 
+   `enable`
+   `config t`
+   `logging host 10.10.10.2`
+   `logging trap debug`
+   `logging source gig 1`
+   `login on-success log`
+   `login on-failure log`
+   `do copy run start`
+
+== Lab 1.6: Defending Routing Protocols ==
+
+*Task 1: Configure a Basic OSPF Routed Network*
+
+RTR01
+1. `enable`
+2. `config t`
+3. `int loopback 0`
+4. `ip address 10.10.1.1 255.255.255.0`
+5. `router ospf 1`
+6. `network 10.10.10.0 0.0.0.255 area 0`
+7. `network 10.10.1.0 0.0.0.255 area 0`
+   
+RTR02
+1. `enable`
+2. `config t`
+3. `int loopback 0`
+4. `ip address 10.10.2.1 255.255.255.0`
+5. `router ospf 1`
+6. `network 10.10.10.0 0.0.0.255 area 0`
+7. `network 10.10.2.0 0.0.0.255 area 0`
+8. `show ip ospf neighbor`
+
+*Task 2: Mount the Attack*
+
+Wireshark
+1. Capture OSPF "Hello" packet with wireshark: 
+   `wireshark`
+   `eth0`
+   `host 224.0.0.5`
+2. Select one packet and choose File -> Export Specified Packets
+3. Choose `pcap` and save the file as `/root/hellopkt.pcap`
+4. Close wireshark
+
+Scapy
+1. Execute python script: 
+   `python Labs/501.1/ospfhello.py`
+
+*Task 3: Defend the Routing Protocol*
+
+RTR01 & RTR02
+1. `enable`
+2. `config t`
+3. `int gig 1`
+4. `ip ospf message-digest-key 1 md5 somesecretkey`
+5. `router ospf 1`
+6. `area 0 authentication message-digest`
+7. `do wr`
+   
+== Lab 1.7: Final Router Hardening Steps / Final Router Audit ==
+
+*Task 1: Add Additional Security Configurations*
+
+RTR01
+1. `enable`
+2. `config t`
+3. `no ip source-route` : disable source routing
+4. `clock timezone utc 0` : set clock to UTC timezone
+5. `banner motd #Authorized access only!#` : set a "message of the day" banner
+6. `int gig 1`
+7. `no ip directed-broadcast` : disable directed broadcasts, IP redirects, and proxy ARP (7-9)
+8. `no ip redirects`
+9. `no ip proxy-arp`
+10. `int loop 0`
+11. `no ip directed broadcast` : disable directed broadcasts, IP redirects, and proxy ARP (11-13)
+12. `no ip redirects`
+13. `no ip proxy-arp`
+14. `logging source-interface gig 1` : Explicitly set a source interface for syslog, NTP, and 
+    SNMP traps
+15. `ntp source gig 1`
+16. `snmp-server trap-source gig 1`
+17. `ip ssh version 2` : Change SSH from version1 to version 2 only
+18. `line vty 0 15` : Set timeouts on SSH sessions
+19. `session-timeout 10`
+20. `exec-timeout 20`
+21. `session-limit 10`
+22. `transport input ssh`
+23. `do wr`
+   
+Save configuration to ftp
+`copy start tftp`
+`10.10.10.4`
+`rtr-audit02`
+
+Kali VM:
+`mkdir rtraudit.2`
+`cd rtraudit.2`
+`cp /srv/tftp/rtr01-audit02 .`
+`rat ./rtr01-audit02`
+
+== Lab 1.8: Active Defense -- Honeyports ==
+
+*Task 1: Execute the Script*
+
+1. Run powershell script at C:\Users\SEC501-Student\Labs\501.1\honeyport.ps1 
+   `./honeport.ps1 22,23,25,53,1433,3389,80,443,21,5060,2222,2223,9433,902`
+
+*Task 2: Mount the Attack*
+
+Kali VM
+1. `nmap -sT 10.10.10.2`
+
+*Taks 3: Assess the Results*
+
+Windows VM
+1. `Get-WinEvent -FilterHashtable @{logname = 'HoneyPort'; ID = 1002}`

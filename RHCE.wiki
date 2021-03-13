@@ -1,0 +1,30 @@
+== Red Hat Certified Engineer (RHCE) exam for Red Hat Enterprise Linux 8 ==
+
+    * [[Exam]] Objectives: detailed list of exam studying points
+
+== Modules ==
+
+*Module 1: Introduction to Ansible*
+    * [[RHCE Lesson 1]]: Installing Ansible
+    * [[RHCE Lesson 2]]: Setting up a Managed Environment
+    * [[RHCE Lesson 3]]: Using Ad Hoc Commands
+    * [[RHCE Lesson 4]]: Getting Started with Playbooks
+    * [[RHCE Lesson 5]]: Working with Variables and Facts
+
+*Module 2: Using Advanced Ansible Solutions*
+    * [[RHCE Lesson 6]]: Using Task Control
+    * [[RHCE Lesson 7]]: Deploying Files
+    * [[RHCE Lesson 8]]: Using Ansible Roles
+    * [[RHCE Lesson 9]]: Using RHEL System Roles
+    * [[RHCE Lesson 10]]: Using Ansible in Large Environments
+    * [[RHCE Lesson 11]]: Troubleshooting Ansible
+
+*Module 3: Managing Systems with Ansible*
+    * [[RHCE Lesson 12]]: Managing Software with Ansible
+    * [[RHCE Lesson 13]]: Managing Users
+    * [[RHCE Lesson 14]]: Managing Processes and Tasks
+    * [[RHCE Lesson 15]]: Managing Storage
+    * [[RHCE Lesson 16]]: Managing Networking
+
+Module 4: Sample Exam
+    * [[RHCE Lesson 17]]: Sample Exam

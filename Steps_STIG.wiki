@@ -1,0 +1,3 @@
+* [ ] Import the new STIG
+* [ ] Create a blank checklist from the new STIG
+* [ ] Run PowerShell commenter. Pointing to old checklist and new blank checklist.

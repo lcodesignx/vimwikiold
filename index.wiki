@@ -1,0 +1,74 @@
+= Contents =
+        - [[#DevOps|DevOps]]
+        - [[#Development|Development]]
+        - [[#Cybersecurity|Cybersecurity]]
+        - [[#JHUAPL|JHUAPL]]
+        - [[#Snippets & Tips|Snippets & Tips]]
+        - [[#Linux|Linux]]
+
+== DevOps ==
+    
+    * [[Docker]]: Introduction to Docker Containers
+    * [[CKDA]]: Certified Kubernetes Application Developer
+    * [[RHCSA]]: Red Hat Certified System Administrator
+    * [[RHCE]]: Red Hat Certified Engineer
+    * [[Ansible]]: Red Hat Certified Specialist in Ansible Automation
+    * [[Microsoft Azure Administrator]]: Skills measured
+    * [[Azure CLI]]: Command sheet cheat
+    * [[AWS Certified SysOps Administrator - Associate]]: Exam Guide
+
+== Development ==
+    
+    * [[Python]]: programming examples
+    * [[Python-Unix]]: Running shell commands in python
+    * [[Java]]: Introduction to Java Programming
+    * [[Java-Projects]]: list of projects and details about implementation and design
+    * [[NodeJS]]: reference
+    * [[Bash Programming]]: Scripting the GNU/Linux shell
+    * [[C-Programming]]: Introduction to C programming
+    * [[PostgreSQL]]: Documentation
+    * [[MySQL]]: Documentation
+    * [[Git Commands]]: Basic Git commands used often.
+
+== Cybersecurity ==
+
+    * [[Scapy]]: Packet manipulation tool for computer networks
+    * [[Splunk]]: command line interface
+    * [[Cybersecurity Ops with bash:]] Security operations with bash
+
+== JHUAPL ==
+    
+    * [[AOR]]: Areas of responsibility
+    * [[TODO]]: list of tasks to do
+    * [[HOW-TO-ARTICLES]]: list of how to do articles
+    * [[Demo]]: demo
+    * [[Interview Questions:]] List or random questions
+
+== Snippets & Tips ==
+
+    * [[VimWiki]] Key bindings: documentation from the github page
+    * [[MAC]]: helpful mac commands
+    * [[Troubleshooting]]: List of fixes to reocurring problems
+
+== Linux ==
+
+    * [[KVM]]: Kernel Virtual Machine
+    * [[Journald]]: Managing Journald
+    * [[Certificates]]: Creating self-signed certificates
+    * [[Ipmitool]]: Using Ipmitool to view system information
+    * [[Rsync]]: Understanding rsync command and examples
+    * [[Autofs]]: Understanding automount
+    * [[Xargs]]: Understanding xargs command and examples
+    * [[FreeIPA]]: Install and setup FreeIPA server
+    * [[Storage]]: Managing storage
+    * [[Advanced Storage]]: Managing advance storage
+    * [[NFS]]: Accessing remote file systems
+    * [[SAMBA]]: Configuring a base samba server
+    * [[SELinux]]: Managing SELinux
+    * [[Systemd]]: Working with systemd
+    * [[Vim]]: Basic commands
+    * [[Time Services]]: Configurting time services
+    * [[Networking]]: Configuring network
+    * [[Kernel Management]]: Understanding kernel settings
+    * [[Users and Groups]]: Managing users and groups
+    * [[Managing Software]]: Basics of software management

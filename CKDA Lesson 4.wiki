@@ -1,0 +1,55 @@
+== Understanding the Main Kubernetes Objects ==
+
+    * `Pods`: the basic unit in Kubernetes; represents a set of containers that share 
+            common resources, such as an IP address and persistent storage volumes
+    
+    * `Deployments`: standard entity that is rolled out with kubernetes
+
+    * `Services`: make deployments accessible from the outside by providing a single 
+                IP/port combination. Servicces by default provide access to pods in
+                round-robin fashion using a load balancer
+                
+    * `Ingress`: publish easy external access to services
+
+    * `Persistent Volumes`: perssistent (networked) sotrage that can be mounted within
+                          a container by using a Persistent Volume Claim
+
+== Using kubectl to Manage API Objects ==
+
+    * `kubectl`: under the hood user curl to send API requests to the kubernetes API 
+    
+    * `kubectl`: has many subcommands, making it possible to manage all aspects of 
+               Kubernetes
+               
+    * Use `kubectl command --help` for documentation, including examples
+
+    * _Tip !_: https://kubernetes.io/docs , is available at the exam!
+
+    * _Tip!_: `kubectl` cheat sheet, https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+    *Using kubectl config*
+    
+    * The context that `kubectl` uses is stored in ~/.kube/config
+    
+    * This context defines which cluster to connect to
+    
+    * Use `kubectl config view` to view different parts of the current configuration 
+      including current context and namespace
+
+== Using curl to Work with API Objects ==
+
+    * Starting api proxy: `kubectl proxy --port=8001`
+
+== Understanding Authentication and Authorization ==
+
+    * Authentication is about where Kubernetes users come from
+    
+    * The `kubectl config` specifies to which cluster to authenticate:
+        * Use `kubectl config view` to see current settings
+        
+    * Authorization is what these users can do
+    
+    * Behind authorization, there is RBAC to take care of the different options
+    
+    * Use `kubectl auth can-i` (like `kubectl auth can-i get pods`) to find out what you 
+      can do

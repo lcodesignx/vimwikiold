@@ -1,0 +1,20 @@
+== Using Python pip to Install Ansible ==
+
+1. On control.example.com: `yum install python3`
+2. `yum -y install python3-pip`
+3. `alternatives --set python /usr/bin/python3`
+4. `su - ansible; pip3 install ansible --user`
+5. `ansible --version` 
+   
+== Installing Ansible from the Repositories ==
+
+1. On the control node: use `subscription-manager repos --list` to verify the name of the latest available repository
+2. Use `subscription-manager repos --enable=ansible-2-for-rhel-8-x86_64-rpms` to enable the repository
+3. Use `yum install ansible` to install the Ansible3 software
+4. `ansible --version` to verify
+5. On managed nodes: `yum install python3`
+
+== Installing Ansible on Centos8 ==
+
+1. Use `yum install -y epel-release` to make this repository available
+2. Use `yum install python3 ansible` to install the ansible software

@@ -1,0 +1,14 @@
+== Configuring Time Services ==
+
+*Commands*
+    `date` : set current time and display format. old command.
+    `tzselect` : allows you to select the current time zone.
+    `timedatectl` : new utility to manage all aspects of time.
+    `hwclock` : set hardware clock and synchronize with system time.
+    
+*timedatectl examples:*
+    `timedatectl --help`
+    `timedatectl status`
+    `timedatectl list-timezones`
+    `timedatectl set-timezone America/New_York`
+    `timedatectl show`

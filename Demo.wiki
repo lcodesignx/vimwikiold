@@ -1,0 +1,19 @@
+ = Toggleable list of  items =
+   * [X] Toggle list item on/off.
+     * [X] Simple toggling between [ ] and [X].
+     * [X] All list's subitems should be toggled on/off appropriately.
+     * [X] Toggle child subitems only if current line is list item
+     * [X] Parent list item should be toggled depending on its child items.
+   * [X] Make numbered list items toggleable too
+   * [X] Add highlighting to list item boxes
+   * [X] Add [ ] to the next list item created with o, O and <CR>.
+
+== Python Web Scraping Exercises ==
+
+Tasks:
+
+- [X] Grab the text from the home page
+- [X] Get a list of unique authors on the quotes to scrape home page
+- [X] Create a list of all the quotes on the first page
+- [X] Inspect the site and use Beautiful Soup to extract the top ten tags from the requests text shown on the top right from the home page.
+- [X] Get all unique authors on the entire website

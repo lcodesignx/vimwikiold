@@ -1,0 +1,59 @@
+== Exploring Pod Configuration ==
+
+    * When deploying a Pod, many parameters are set to a default value
+    * Use `kubectl describe pod podname-xxx` to see all these parameters and their 
+      current setting as they currently are in the etcd.
+    * Use documentation at https://kubernetes.io/docs for more information about these 
+      settings
+      
+    _Tip!_ This documentation is available on the exam as well
+    
+== Using Pod Logs ==
+
+    * Applications running in Pods are writing to the container logs
+    * The container log catches all that normally would have been sent to the STDOUT
+    * Use `kubectl logs podname-xxx` to read these logs 
+      
+== Connecting to a Pod for Further Inspection ==
+
+    Apart from exploring a Pod externally, you can also connect to it and run commands 
+    on the primary continer in a Pod:
+        * `kubectl exec -it nginx-xxx -- sh`
+        * From here, run any command to investigate
+        * Use `Ctrl-p`, `Ctrl-q` to disconnect
+
+== Monitoring Pods ==
+
+    * Use `kubectl get pods` to get an overview of all pods and their current state
+    * More advanced Pod monitoring should happen from the point of view of application 
+      monitoring: don't just monitor the individual pod, but deployment of which it is 
+      a part of
+    * Advisor is a more advanced monitoring agent that integrated with the Kubelet to 
+      get performance data about Kubernetes components
+    * Prometheus is a more advanced monitoring solution that allows you to monitor pods 
+      as well as nodes
+
+== Using Port Forwarding to Access Pods ==
+
+    * Pods can be accessed in multiple ways
+    * A very simple way is by using port forwarding to expose a Pod port on the kubelet 
+      host:
+        * `kubectl apply -f nginx.yaml`
+        * `kubectl port-forward pod/nginx 8080:80`
+        * `curl http://localhost:8080`
+    * Port forwarding is useful for testing Pod accessibility, not to expose it to 
+      external users
+    * More advanced ways to access Pod applications are by using *services* and *ingress*
+
+== Understanding SecurityContext ==
+
+    A SecurityContext defines privilege and access control settings for a pod or 
+    container, and includes the following:
+    
+    * Discretionay Access Control, which is about permissions used to access and object
+    * Security Enhanced Linux, where security labels can be applied
+    * Running as privileged or unprivileged user
+    * Using Linux capabilities
+    * AppArmor, which is an alternative to SELinux
+    * AllowPrivilegeEscalation which controls if a process can gain more privileges 
+      than its parent process

@@ -1,0 +1,112 @@
+== Understanding Pods ==
+
+    * A Pod is an abstraction of a server
+        * It can run multiple containers within a single NameSpace, exposed by a 
+          single IP address
+    
+    * The Pod is the minimal entity that can be managed by Kubernetes
+
+    * From a container perspective, a Pod is an entity that runs one or more 
+      containers by using a container image
+      
+    * Typically, Pods are only started through a Deployment, because "naked" Pods are 
+      not rescheduled in case of a node failure
+      
+    *Managing Pods with kubectl*
+    
+    * Use `kubectl run` to run a deployment based on a default image:
+        * `kubectl run ghost --image=ghost:0.9`
+
+    * Use `kubectl` combined with instructions ina YAML file to do anything you'd like:
+        * `kubectl create -f <name.yaml`
+        * `kubectl get pods [-o yaml]`
+            * `kubectl get pods -o wide`
+
+    * `kubectl describe pods` shows all details about a Pod, including information 
+      about containers running within:
+        * For instance, `kubectl describe pods newhttpd`
+
+    * `kubectl edit pod mypod` allows editing of live pods
+
+== Creating a YAML Manifest to Configure Pods ==
+
+    * All of the YAML manifest ingredients are defined in the API
+    
+    * `apiVersion`: specifies which version of the API to use for this object
+    
+    * `kind`: indicates the type of object (Deployment, Pod, etc.)
+    
+    * `metadata`: contains administrative information about the object
+    
+    * `spec`: contains the specifics for the object
+    
+    * Use `kubectl explain` to get more information about the basic properties
+
+    *Container Components*:
+    
+    In the containers spec, different parts are needed:
+    
+        * `name`: the name of the container
+        * `image`: the image that should be used
+        * `command`: the command the container should run
+        * `args`: arguments that are used by the command
+        * `env`: environment variables that should be used by the container
+
+== Working in a Declaritive versus Imperative way ==
+
+    * The recommended way to work with `kubectl`, is by writing your manifest files 
+      and applying `kubectl {create|apply} -f manifest.yml` to manage objects in the 
+      cluster
+      
+    * This declarative methodology is giving much more control that the imperative 
+      methodology where you create all from the CLI
+      
+    * The major challenge is how to easily generate YAML files
+
+    * Get current state of an object: 
+      `kubectl get deployments nginx --export -o yaml`
+      
+    * Push settings from a new manifest: 
+      `kubectl replace -f nginx.yaml`
+      
+    * Apply settings from a manifest: 
+      `kubectl apply -f nginx.yaml`
+
+    *Easily Generating YAML Files*:
+    
+    * Access the documentation at kubernetes.io/docs
+    
+    * Frome there, copy/paste into a YAML file and modify as needed
+    
+    * For additional components, use `kubectl explain` to get a list of specific 
+      properties that are available at a specific level
+
+== Understanding Multi-Container Pods ==
+
+    * Typically, just one container is offered through a Pod
+    * Sincle container Pods are easier to build and maintain
+    * There are some cases where you might want to run multiple containers in a Pod:
+        * *Sidecar container*: a container that nehances the promary application 
+          for instance for logging
+        * *Ambassador container*: a container tha represents the primary container 
+          to the outside world, such as a proxy
+        * *Adapter container*: used to adopt the traffic or data pattern to match 
+          the traffic or data pattern in other applications in the cluster
+    * When using multi-container Pods, the containers typically share data through 
+      shared storage
+
+    *Understanding the Sidecar Scenario*:
+    
+    * A sidecar container is providging additional functionality to the main container, 
+      where it makes no sense running this functionality in a separate Pod
+    * Think of logging, monitoring and syncing
+    * The essence is that the main container and the sidecar container have access to 
+      shared resources to exchange information
+    * Often, shared volumes are used for this purpose
+
+== Using NameSpace ==
+
+    * A NameSpace implements kernel level resource isolation
+    * Kubernetes offers NameSpace objects that provide the same functionality
+    * Different NameSpaces can be used to strictly separate between customer resources
+    * Use `kubectl get ... --all-namespaces` to see resources in all namespaces

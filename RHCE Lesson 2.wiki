@@ -1,0 +1,21 @@
+== Managing Ansible Configuration Files ==
+
+    *Managing ansible.cfg*
+    
+    * The ansible.cfg file is considered in order of precedence:
+        * `/etc/ansible/ansible.cfg` is the default
+        * `~/.ansible.cfg` if exists will overwrite the default
+        * `./ansible.cfg` is the configuration file in ther current Ansible project directory and it will always have 
+          precedence if it exists
+    * Alternatively, if a variable ANSIBLE_CONFIG exists to refer to a specific config file, this will always have 
+      precedence
+    * Use `ansible --version` to find which configuration file currently is used
+
+== Lab: Setting up an Ansible Managed Environment ==
+
+    * Finalize setting up the Ansible managed environment and ensure your setup meets the following 
+      requirements:
+      * User Ansible is used for all management tasks on managed hosts
+      * Inventory is set up
+      * Ansible.cfg is configured for sudo privilege escalation
+      * SSH key-based login has been configured

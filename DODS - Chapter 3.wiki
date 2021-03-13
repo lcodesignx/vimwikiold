@@ -1,0 +1,337 @@
+= Contents =
+        - [[#Docker Swarm Services|Docker Swarm Services]]
+        - [[#Advanced Service Options|Advanced Service Options]]
+        - [[#Service Discovery and Networking|Service Discovery and Networking]]
+        - [[#Setting Constraints|Setting Constraints]]
+        - [[#Stopping and Updating Services|Stopping and Updating Services]]
+        - [[#Rolling Updates|Rolling Updates]]
+        - [[#Using Traefik to Proxy Web Services|Using Traefik to Proxy Web Services]]
+
+== Docker Swarm Services ==
+
+    * *Service*: Defines how an application runs including volumes, ports, and the 
+               number of tasks
+    * *Task*: A container and the program that runs in it
+
+    *Service Modes*
+    
+    * *Replicated*: One or more tasks are scheduled to run in the swarm
+    * *Global*: Exactly one tasks runs on every node in the swarm
+
+    *Running a Service*
+    
+    * Very similar to using docker container run:
+        `docker service create`
+    * Most flags that work with `docker container run` also work with `docker service create`
+
+    *Examples*:
+    
+        `docker service create -p 8000:80 --detach=true --name whoami emilevauge/whoami`
+        `docker service ls`
+        `docker service ps <CONTAINER_NAME>`
+        `docker node ps <NODE>`
+        
+    *Volumes*
+    
+    * Work in almost the same way as `docker container run`
+    * The -v and the --volume flags are not available
+    * Use the --mount flag to mount a volume
+    * Bind mounts do not create the path on the local node
+
+    *Examples*:
+    
+        `docker volume create --driver=rxray/rbd -o size=20 --name test`
+        `docker volume ls`
+        `docker service create --mount source=test,dst=/test -t --name bb --detach=true busybox:1.27`
+        
+== Advanced Service Options ==
+
+    *Using Multiple Replicas*:
+    
+    * Replicas allow you to scale your application horizontally to meet load demands
+    * The number of replicas can be scaled up or down at any time
+    * Replicas provide for high availiability to protect your service from node failures
+
+    *Starting Multiple Replicas*
+    
+    `docker service create --replicas=3 -p 8000:80 --detach=true --name whoami emilevauge/whoami`
+    `docker service ps whoami`
+    
+    *Scaling a service*
+    
+    `docker service scale --detach=false whoami=5`
+    `docker service scale --detach=false whoami=1`
+    
+    *Secrets*
+    
+    * Secrets let you share sensitive data with your service without putting it in the image
+    * Secrets create files in /run/secrets/ in the container
+    * Secrets can be shared with multiple services
+
+    *Create a secret*
+    
+    `echo "secretpass" | docker secret create fake_secret -`
+    
+    `docker service create --secret \`
+    `source=fake_secret, \`
+    `target=secret_target \`
+    `-t --name bb --detach=true busybox:1.27 watch -t cat /run/secrets/secret_target`
+    
+    `docker service logs --raw bb`
+    
+    `docker service rm bb`
+    
+    *Updating Secrets*
+    
+    * Secrets cannot be updated but it is possible to update a service to use a new secret
+    * Delete secrets:
+        `docker secret rm`
+
+    *Configs*
+    
+    * Docker 17.06 added the ability to store files
+    * Works like secrets
+    * Primarily used to pass configuration files to tasks
+    * You can have more generic images
+    * Commands:
+        `echo "Your Configuration Here" | docker config create sample_config -`
+
+        `docker service create --config source=sample_config,target=/etc/myconfig -t \`
+        `--name bb --detach=true busybox:1.27 watch -t cat /etc/myconfig`
+
+    *Updating Configs*
+    
+    * Like secrets, configs cannot be updated
+    * Services can be updated to use a new config
+    * Remove a config:
+        `docker config rm`
+
+== Service Discovery and Networking ==
+
+    *Overlay Networks*: allow containers on multiple hosts to connect as if they were on the 
+                      same network. You do not have to worry about where tasks are running
+                      
+    * Connect a new service to a network:
+        
+        `docker service create --network frontend --replicas=3 -p 8080:80 --detach=true \`
+        `--name whoami emilevauge/whoami`
+
+    *Service Discovery*
+    
+    * NDS service discovery works mostly like plain Docker
+    * By default, Swarm assigns each service a virtual IP which is used by the DNS service
+    * It is possible to configure Swarm to use round-robin DNS instead
+    * Docker will update service discovery as replicas start and stop
+    * Connect to a second network:
+        `docker service update --network-add backend --detach=false whoami`
+        `docker service update --network-rm backend --detach=false whoami`
+
+    *Connecting to Other Service*
+    
+    * Services can connect to other services on the same network without the need for 
+      published ports
+    * Do not publish ports for services that are only used by the services on the same 
+      network
+
+    *The "ingress" Network*
+    
+    * The _ingress_ network makes published ports available on every node in the swarm
+    * Mesh routing ensures that requests make it to the correct task
+        
+    *Subnet Options*
+    
+    `docker network create -d overlay --subnet=192.168.100.0/24 \`
+    `--gateway=192.168.100.1 mysubnet`
+    
+    *The "docker_gwbridge" Network*
+    
+    * The _docker__gwbridge_ network connects all of the overlay networks to node's physical 
+      interfaces
+    * No need to configure this network
+
+== Setting Constraints ==
+
+    * Limit the nodes on which a service can run
+    * Constraints are selected based on node or engine labels
+    * If multiple constraints are set, all of them must watch
+    * Labels can be matched for equality (==) or inequality (!=)
+    * Patterns are not supported
+    * Setting constraints commands:
+        `docker service crate --constraint 'node.labels.disk == ssd' --replicas=3 \`
+        `-p 8000:80 --detach=true --name whoami emilevauge/whoami`
+
+    *Placement Preferences*
+    
+    * Placement preferences spread tasks across failure domains
+    * Use node or engine labels to spread tasks across the swarm
+    * Every node in the swarm has a labele that specifies a failure domain
+    * Placement preferences are set with the `--placement-pref` flag
+    * Docker will spread the tasks evenly amont the groups
+    * If a task cannot be started due to constraint or resource limits in a node, it will 
+      be started elsewhere
+    * Multiple preferences may be used; they will be applied in order
+    * Placement preferences command:
+        `docker service create --placement-pref 'spread=node.labels.dc' --replicas=4 \`
+        `-p 8000:80 --detach=true --name whoami emilevauge/whoami`
+
+== Stopping and Updating Services ==
+
+    *Remove a Service*
+    
+    * Running services are removed with `docker service rm`
+    * Make sure that your storage drive does not remove volumes used by a service when 
+      the service is removed
+    * Commands:
+        `docker service rm whoami`
+        
+    *Stop a Service*
+    
+    * There is no built-in command to stop a service
+    * Swarm assumes that if a service is being stopped, it is no longer needed
+    * To stop a service, scale the service to zero replicas
+    * Restart the service by scaling ther service back to one or more replicas
+    * Commands:
+        `docker service scale --detach=true whoami=0`
+
+    *Update a Service*
+    
+    * Use the commnad `docker service update` to update a service
+    * Nearly every setting can be updated
+    * Some updates require that a service be restarted
+    * Rolling restart:
+        `docker service update --force name`
+    * Commands:
+        `echo "secret2" | docker secret create fake_secret -`
+    
+        `docker service create --secret source=fake_secret,target=secret_target -t \`
+        `--name bb --detach=true busybox:1.27 watch -t cat /run/secrets/secret_target`
+
+        `echo "secret2" | docker secret create fake_secret2 -`
+
+        `docker service update --secret-rm fake_secret --secret-add \`
+        `source=fake_secret2,target=secret_target --detach=false bb`
+    
+    * Update config:
+        `docker service update --config-rm sample_config --config-add \`
+        `source=sample_config2,target=/etc/myconfig --detach=false bb`
+
+    * Add and remove a mount:
+        `docker service create -t --name bb --detach=true busybox:1.27 watch -t df /test`
+        
+        `docker service update --mount-add source=test,dst=/test --detach=false bb`
+
+        `docker service update --mount-rm /test --detach=true bb`
+
+    * Update published ports:
+        `docker service create --detach=true --name whoami emillevauge/whoami`
+        
+        `wget -O - node:8000`
+        
+        `docker service update --publish-add 8000:80 --detach=false whoami`
+
+        `docker service update --publish-rm 8000:80 --detach=false whoami`
+
+    _Update Tips_
+    
+    * Turn off health checks (--no-healthcheck=true)
+    * Change the CPU and memory limits (--limit-cpu and --limit-memory)
+    * Change constraints and placement preferences:
+        * --constraint-add
+        * --constraint-rm
+        * --placement-pref-add
+        * --placement-pref-rm
+
+== Rolling Updates ==
+
+    *The Update Process*
+    
+    * Docker stops the first task
+    * A replacement is scheduled and started
+    * If the new task starts successfully, Docker will repeat the process with the 
+      remaining tasks
+    * If the new task fails, Docker will run a failure action
+
+    *Update Configuration Policy*
+    
+    * Controls how updates are applied 
+    * Policy settings can be set on service creation or updated later
+    * Update configuration policies are set per-service
+    * Document services taht use different policies
+
+    *Parallelism*
+    
+    * By default, updates are applied one task at a time
+    * Use `--update-parallelism` to set the number of tasks to update in parallel
+    * Set this to less than the number of replicas for zero downtime updates
+    * Set to zero to update all running tasks at once
+
+    *Delay and Monitor Time*
+    
+    * `--update-delay` sets the time between replacing tasks
+    * `--update-monitor` will monitor new tasks for failures for the given amount 
+      of time
+    
+    
+    | 10s   | 10 seconds        |
+    | 20m   | 20 minutes        |
+    | 2h    | 2 hours           |
+    | 1h30m | 1 hour 30 minutes |
+    
+    *Update Failure Actions*
+    
+    * Sets how Docker responds to failure: `--update-failure-action`:
+        * pause
+        * continue
+        * rollback
+    * Commands:
+        `docker service create --name nginx --replicas=3 --update-delay=5s \`
+        `-p 8000:80 --detach=true nginx:1.12.1`
+
+        `docker service update nginx --image nginx:1.13.5 --detach=true`
+
+    *Rollback*
+    
+    * The command docker service rollback was added in DOcker 17.09
+    * Rollback any service change to the previous state
+    * Commands:
+        `docker service rollback --detach=true nginx`
+    * There are several `--rollback-*` flags that control rollback policy
+    * They are analogous to the the `--update-*` flags
+
+== Using Traefik to Proxy Web Services ==
+
+    * *Option 1*: Run web services on separate ports
+    * *Option 2*: Proxy web services
+    * An external proxy can be configured manually
+    * Traefik can automatically proxy web services
+
+    *Traefik*
+    
+    * Traefik (traefik.io) is a wbe proxy that works with Swarm, Kuberenetes, Mesos, 
+      Rancher, and more
+    * Can act as an SSL terminating proxy
+    * Requests are routed based on hostname, path, and query parameters
+    * Run standalone or in a Docker container
+
+    *Configuration*
+    
+    * Static configuration sets entry points, orchestration backend, and SSL certs
+    * Traefik container is in /etc/traefik/traefik.toml
+    * Paths specidfied in the configuration are based on the location in the 
+      container
+    * Set the configuration with a Docker config  
+    * Commands:
+       `docker service create \`
+       `--config source=traefik-http,target=/etc/traefik/traefik.toml \`
+       `--mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \`
+       `--constraint=node.role==manager \`
+       `--publish 80:80 --network frontend \`
+       `--name traefik --detach=true traefik:1.3.8`
+
+    * Add a service to traefik:
+       `docker service create \`
+       `--label traefik.enable=true \`
+       `--label traefik.port=80 \`
+       `--label traefik.frontend.rule=Host:whoami.local \`
+       `--network fronend \`
+       `--detach=true --name whoami emilevauge/whoami`

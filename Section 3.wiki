@@ -1,0 +1,19 @@
+= Contents =
+        - [[#Lab 3.1: Analyzing PCAPs with Tcpdump|Lab 3.1: Analyzing PCAPs with Tcpdump]]
+
+== Lab 3.1: Analyzing PCAPs with Tcpdump ==
+
+*Task 1: Analyze Some Attacks*
+
+    * Read a PCAP file and print out the result with no DNS or port resolution: 
+      `tcpdump -r synscap-open.pcap -nn`
+      `tcpdump -r dns-remoteshell.pcap -nnX | more`
+      `tcpdump -r dns-remoteshell.pcap -nnX 'port 53'`
+      `tcpdump -r metasploit-shell.pcap -nnvX | less`
+      `tcpdump -r teardrop.pcap -vvX -nn | less`
+      `tcpdump -r teardrop.pcap -vvnnX 'udp and not port 53'`
+      
+*Task 2: An Obvious Attach?*
+
+    * Check for simple attack: 
+      `tcpdump -r ftp-attack.pcap -vvnnX | less`

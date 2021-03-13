@@ -1,0 +1,33 @@
+== RHCSA Practice Exam 2 ==
+
+1. Create a virtual machine with the name server4. Make sure it meets the following requirements:
+    1. A 20GiB hard disk is available.
+    2. The root password is set to "password".
+    3. The user "student" is created, with the password "password".
+    4. Use custom partitioning to create a 1GiB /boot partition and a 12 GiB / partition.
+2. Configure your installation disk as the default repository. Make sure to disable all other repositories.
+3. Configure your system to clean up /tmp files every hour.
+4. Add two 10GiB hard disks to your virtual machine. Configure one Stratis volume with the name myvol on top of these hard drives and make
+   sure the volume is mounted persistently and automatically while booting.
+5. Write a shell script that meets the following requirements:
+    1. It should evaluate the first argument provided.
+    2. When no argument is provided, it should prompt the user for input.
+    3. The script should evaluate whether the argument provided exists as a file or a directory, or doesn't exist at all.
+    4. If the argument is a file, the script should give a long listing of the filename.
+    5. If the argument is a directory, the script should give a long listing of the directory properties.
+6. Find all files that have the SUID permission set and write the result to the file /tmp/suid.txt.
+7. Create the user lisa. Ensure that she needs to reset her password every 30 days. Ensure that she is able to manage passwords for all users, but
+   not the user root.
+8. Ensure that user lisa has permission to modify all files in the /etc directory, without changing user or group ownership.
+9. On the primary hard disk, use all the remaining disk space for an LVM volume group. In this volume group, create a 2GiB logical volume to be
+   used as swap space.
+10. On your primary network interface, configure a secondary IP address of 10.0.0.10/24.
+11. Practice the procedure to reset a root password, assuming you don't know the current root password.
+12. Secure the SSH service, such that only user lisa is allowed to log in.
+13. Make sure that after a system restart, the system by default boots a graphical environment. (Even if it is doing this already by default, type
+    the command again so that it is in your Bash history.)
+14. Configure Bash history such that the last 2500 commands used are written to the history file.
+15. Install the vsftpd service.Ensure that it is started automatically after a reboot, and configure it such that anonymous users are able to 
+    upload files.
+16. Configure your system to use PHP version 7.1 as the default version.
+17. Add a new disk to your virtual machine. On this disk, create a VDO volume with a virtual size of 1TiB.

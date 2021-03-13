@@ -1,0 +1,8 @@
+== Move bamboo installation directory to a new location ==
+
+* Stop bamboo service
+* Move bamboo installation directory to the new location
+* Update the bamboo systemd service with the new location for the start and stop scripts
+* Systemctl daemon-reload
+* Restart the bamboo service
+* Check the agents and ensure they are online

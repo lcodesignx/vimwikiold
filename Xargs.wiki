@@ -1,0 +1,12 @@
+*How to user xargs*
+    `ls | xargs du -sh`
+
+How to user xargs with find
+    `find /tmp -mtime +14 | xargs rm`
+
+xargs vs exec
+    `find ./foo -type f -name "*.txt" -exec rm {} \;`
+    `find ./foo -type f -name "*.txt" | xargs rm`
+
+How to print commands that are executed
+    `echo 'one two three' | xargs -t rm`

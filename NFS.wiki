@@ -1,0 +1,23 @@
+= Configuring a base NFS server =
+
+*Commands*
+    `systemctl enable --now nfs-server`
+    `vim /etc/exports (/data *(rw,no_root_squash)`
+    `no_root_squash: allows root permissions on share`
+    `firewall-cmd --add-service [nfs, mountd, rpc-bind] --permanent`
+    `firewall-cmd --reload`
+    
+== Mounting NFS Share ==
+
+*Commands*
+
+    `yum install nfs-utils`
+    `showmount -e nfsserver`
+    `mount nfsserver:/share /mnt`
+    
+    _while mounting through /etc/fstab, include the underscore-netdev option underscore-netdev lets
+    systemd know that this device can only be mounted when networking is available_
+    
+    _*Example fstab entry*_
+    `nfsserver:/share   /nfs    nfs _netdev 0 0`
+    `mount -a`

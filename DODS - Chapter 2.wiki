@@ -1,0 +1,102 @@
+= Contents =
+        - [[#Initializing a Swarm|Initializing a Swarm]]
+        - [[#Adding Nodes to a Swarm|Adding Nodes to a Swarm]]
+        - [[#Node Promotion and Availability|Node Promotion and Availability]]
+        - [[#Grouping Nodes with Labels|Grouping Nodes with Labels]]
+        - [[#Removing a Node from the Swarm|Removing a Node from the Swarm]]
+
+== Initializing a Swarm ==
+
+    *What is Docker Swarm?*
+    
+    * Tool to manage containers
+    * Starts services and keeps them running
+    * Scales services up and down as needed
+    * Roll out updates with minimal downtime
+    * Easy to setup and use
+    * Managed through native tools
+    * Built-in load balancing and service discovery
+
+    *Preparation*:
+    
+    * manager node must have a static IP address
+    * Allow TCP 2377 between nodes
+    * Open ports for your overlay network and storage providers
+    * ENable NTP on your nodes
+
+    *Initializing the Swarm commands:*
+    
+    `docker swarm init --advertise-addr <IPADDRESS>`
+    `docker node ls`
+    
+== Adding Nodes to a Swarm ==
+
+    * N+1: An odd number of managers ensure that a swarm will keep working if N/2 
+      nodes go down
+    * Add a manager command:
+        * `docker swarm join-token manager`
+        * `docker swarm join --token <TOKEN> <IPADDRESS:2377`
+    * Add a worker:
+        * `docker swarm join-token worker`
+        * `docker swarm join --token <TOKEN> <IPADDRESS:2377>`
+    * Token Rotation:
+        * Join tokens are static
+        * The docker swarm join command can be added to the node provisioning process
+        * Tokens should be rotated periodically:
+            `docker swarm join-token --rotate worker`
+
+== Node Promotion and Availability ==
+
+    * Promote a worker node to a manager:
+        `docker node promote <WORKER>`
+    * Demote manager into a worker node:
+        `docker node demote <MANAGER>`
+
+    *Node Availability*
+    
+    * A node's availability tells the scheduler if tasks can run on the node
+    * This only applies to tasks scheduled with swarm
+    * There are three availability states that you can set on a node:
+        * Active:
+            * The nodes is ready and able to run new tasks
+            * Commands:
+                `docker node update --availiability active <NODE>`
+        * Pause:
+            * Prevents the scheduler from running new tasks on the node
+            * Tasks already running on the node will continue to run
+            * Can be useful for troubleshooting load issues
+            * Commands:
+                `docker node update --availability pause <NODE>`
+        * Drain:
+            * Prevents the scheduler from running new tasks on the node
+            * Reschedules any running tasks on other nodes in the swarm
+            * Used to prepare a node for maintenance
+            * Used to prevent tasks from running on manager nodes
+            * Commands:
+                `docker node update --availiability drain <NODE>`
+
+== Grouping Nodes with Labels ==
+
+    *Labels*
+   
+    * Key-value pair that lets you group nodes
+    * They can be logical or descriptive
+    * Can be used as constraints on services
+    * A label is unique per node
+    * Add a label:
+        `docker node update --label-add class=ssd <NODE>`
+        `docker node update --label-rm class <NODE>`
+        `docker node update --label-rm class --label-add frontend --label-add foo=bar <NODE>`
+    * Look at node labels:
+        `docker node inspect -f '{{index .Spec.Labels}}' <NODE>`
+
+== Removing a Node from the Swarm ==
+
+    * Commands:
+        `docker node update --availability=drain <NODE>`
+        `docker node ps <NODE>`
+        `docker node ls`
+        `docker node demote <NODE>`
+        `docker node rm <NODE>`
+    * Last step run from the node:
+        `docker swarm leave`

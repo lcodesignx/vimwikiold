@@ -1,0 +1,76 @@
+== RHCSA Sample Exam Assignments ==
+
+* On a virtual machine with a disk with a size of at least 20GiB, install a
+  Centos or RHEL 8 server, ensuring that after installation a graphical
+  interface is started automatically
+
+* Use custom partitioning and create the following partitions:
+    * 1GB /boot
+    * 12GB /
+    * 1GB swap
+
+* Assume that you have lost access to the root account and cannot log in as
+  user root anymore. Reset the root password
+
+* Loop mount the installation disk/ISO that you've used to set up RHEL 8
+  Configure the loop-mounted ISO as a repository
+
+* Configure your system to use this repository as the only repository
+
+== Managing Partitions ==
+
+* In the remaining disk space on your server hard disk, add a 1GiB partition.
+  Do this in such a way that it's possible to add more partitions later.
+
+* Format this partition with the ext4 file system and set the label dbfiles on
+  the partition. Configure your system to mount this partition persistently on
+  the directory /dbfiles, using the partition label
+  
+== Managing Logical Volumes ==
+
+* Create a 2GiB LVM volume group with the name vgdata
+
+* In this volume group, create a 1GiB logical volume with the name lvdata
+
+* Format this logical volume with the XFS file system and mount it
+  persistently on the directory /lvdata
+
+* Restart your computer, and after a restart add another 500MiB to the XFS
+  file system that was created on top of this logical volume
+  
+== Creating users and groups ==
+
+* Set passwords for users to expire after 90 days. Also ensure that new
+  passwords must have a length of at least 6 characters
+
+* Ensure that while creating new users, an empty file with the name newfile
+  is created in their home directories
+
+* Create users victoria and karen. Make them a member of the group
+  students as a secondary group membership
+
+* Create users anna and amy. Make them a member of the group profs as a
+  secondary group membership
+  
+== Managing Permissions ==
+
+* Create shared group directories /data/students and /data/profs and ensure
+  that members of the group students have full access to /data/students, and
+  members of profs have full acess to /data/profs. The others entity should
+  have no access at all
+
+* Ensure that all new files in these directories are automatically group-
+  owned by the group-owner of the firectory
+
+* Ensure that only the owner of a file is allowed to remove all files
+
+* User anna is head-master and should be allowed to remove all files
+
+* All users from the group profs should have read permissions on all files in
+  /data/students
+  
+== Scheduling Cron Jobs ==
+
+* Schedule a cron job to automatically write the text "hello world" to syslog
+  at every 10th minute after the hour. Ensure this message is written with the
+  "notice" priority

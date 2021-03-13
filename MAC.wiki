@@ -1,0 +1,40 @@
+= Contents =
+        - [[#Helpful MAC commands|Helpful MAC commands]]
+        - [[#Volumes|Volumes]]
+        - [[#Security and Apps|Security and Apps]]
+        - [[#Network|Network]]
+
+== Helpful MAC commands ==
+
+== Volumes ==
+
+*Detache mounted installation file:*
+
+    `hdiutil detach /Volumes/<app>`
+    
+== Security and Apps ==
+    
+*Allow installation of apps from anywhere (disable & enable):*
+
+    `sudo spctl --master-disable`
+    `sudo spctl --master-enable`
+    
+*Format flash drive to MacOS Extended Journaled:*
+
+    `diskutil eraseDis <newname> <disknumber>`
+    
+*Getting system information:*
+
+    `sysctl -n machdep.cpu.brand_string`
+    `sysctl -a | grep -i machdep.cpu.cores_per_package`
+    `sysctl -a`
+    
+*Sed command on MacOS*:
+
+    `sed -i ' ' s/Docker/Python/ demo.sh`
+    
+== Network ==
+
+    `networksetup --listallhardwareports`
+    `networksetup` : the command that helps modify connections
+    `networksetup -setdnsservers Wi-Fi <DNSADDRESS>`

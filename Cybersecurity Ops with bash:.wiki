@@ -1,0 +1,24 @@
+== Security Operations with Bash ==
+
+    *Important and common Linux logs and their standard locations:*
+    
+| Log Location      | Description                                                              |
+|-------------------|--------------------------------------------------------------------------|
+| /var/log/apache2/ | Access and error logs for the Apache web server                          |
+| /var/log/auth.log | Information on user logins, privileged access, and remote authentication |
+| /var/log/kern.log | Kernel logs                                                              |
+| /var/log/messages | General noncritical system information                                   |
+| /var/log/syslog   | General system logs                                                      |
+
+    *Local data-gathering commands*
+    
+| Linux command     | Windows equivalent | Purpose                                         |
+|-------------------|--------------------|-------------------------------------------------|
+| uname -a          | uname -a           | Operating system information                    |
+| cat /proc/cpuinfo | systeminfo         | Display system hardware and related info        |
+| ifconfig          | ipconfig           | Network interface information                   |
+| route             | route print        | Display routing table                           |
+| arp -a            | arp -a             | Display Address Resolution Protocol (ARP) table |
+| netstat -a        | netstat -a         | Display network connections                     |
+| mount             | net share          | Display filesystems                             |
+| ps -e             | tasklist           | Display running processes:wq                    |

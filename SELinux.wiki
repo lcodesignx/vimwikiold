@@ -1,0 +1,67 @@
+= Contents =
+        - [[#Managing SELinux|Managing SELinux]]
+        - [[#SELinux Booleans|SELinux Booleans]]
+        - [[#Using File Context Labels|Using File Context Labels]]
+        - [[#Analizying SELinux Log Messages|Analizying SELinux Log Messages]]
+
+== Managing SELinux ==
+
+*SELinux Mode*
+    * Enabled:
+        * Permissive
+        * Enforcing
+    * Disabled
+
+*Commands:*
+    * `getenforce` will show the current state
+    * `setenforce` toggles between enforcing and permissive mode
+
+Edit `/etc/sysconfig/selinux` to manage the default state of SELinux
+
+*Examples:*
+    `setenforce permissive`
+    `setenforce 0`
+    `setenforce enforcing`
+    `setenforce 1`
+    
+*Understanding SELinux Context Labels*
+*Contexts:*
+    * user: user specific context
+    * role: role specific context
+    * type: flags which type of operation is allowed on this object
+    * -Z : show current context information
+context types are used in the rules in the policy to define which source object has access to which target object.
+
+== SELinux Booleans ==
+A boolean is an in/off switch, used to enable or disable specific categories of functionality.
+*Show SELinux Context:*
+    * `ps auxZ | grep ssh`
+    * `ls -lZd /etc/ssh`
+    * `ps auxZ | grep httpd`
+    * `ls -Z /var/www`
+
+*Boolean Commands:*
+    `getsebool -a`
+    `setsebool -P httpd_enable_homedirs on`
+    
+== Using File Context Labels ==
+Use semanage fcontext to set the file context label. This will write the context to the selinux policy.
+To enforce the policy setting on the file system, use `restorecon`.
+Alternatively, use `touch /.autorelabel` to relabel all files to the context that is specified in hte policy.
+
+*Help*
+_man semanage-fcontext_
+
+*fcontext command example:*
+    `semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"`
+    `restorcon -Rv /web`
+    
+== Analizying SELinux Log Messages ==
+
+SELinux uses `auditd` to write log messages to the audit log.
+Ensure that `sealert`is available, it interprets messages from the audit log, applies SELinux AI and writes meaningful messages to `/var/log/messages`
+Run the `sealert` command, including the UUID message to get advice on how to troubleshoot specific files.
+*Examples*
+    `grep AVC /var/log/audit/audit.log`
+    `journalctl | grep sealert`
+    `sealert -l PID | less`

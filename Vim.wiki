@@ -1,0 +1,39 @@
+*Normal mode (DELETE)*
+    * x: delete single character
+    * s: delete single character and go into insert mode
+    * d-w: delete word
+    * c-w: delete word and go into insert mode
+    * shift-d: delete rest of the current line
+    * shift-c: delete rest of the current line and go into insert mode
+    * shift-s: delete entire line and go into insert mode properly indented
+    * :%d: delete all lines
+
+*Inline movements*
+    * f-[character]: jumps to the character
+    *Examples:*
+        f-a: jumps on top of character a
+        f-d: jumps on top of character d
+    * semi-colon (;): jumps to next character occurence after f-a
+    * comma (,): jumps back to previous character
+    * t-[character]: jumps to character before the one entered
+    *Examples:*
+        t-a: jumps to character but not on top of it
+        
+*Combo moves*
+    * d-t-[char]: delete up to char (not inclusive)
+    * d-f-[char]: delete up to char (inclusive). will also delete char specified
+    * c-t-[char]: delete up to char (not inclusive). and go into insert mode
+    * c-f-[char]: delete up to char (inclusive). will delete char specified and go into insert mode
+
+*VIM terminal*
+    * :!{command}: run terminal command from within vim
+    *Examples:*
+        `:!{ls -la}`
+        `:%!python -m json.tool`
+        
+*Comment multiple lines simultaneously*
+    * Method one:
+        `Ctrl + v`
+        `Shift + i`
+        `Comment character`
+        `esc`

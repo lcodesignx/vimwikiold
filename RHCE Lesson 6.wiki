@@ -1,0 +1,199 @@
+= Contents =
+        - [[#Using Loops and Items|Using Loops and Items]]
+        - [[#Using Register Variables with Loops|Using Register Variables with Loops]]
+        - [[#User when to Run Tasks Conditionally|User when to Run Tasks Conditionally]]
+        - [[#Testing Multiple Conditions|Testing Multiple Conditions]]
+        - [[#Using Handlers|Using Handlers]]
+        - [[#Using Blocks|Using Blocks]]
+        - [[#Dealing with Failures|Dealing with Failures]]
+        - [[#Mangaging Changed Status|Mangaging Changed Status]]
+        - [[#Lab: Implementing Tasks|Lab: Implementing Tasks]]
+
+== Using Loops and Items ==
+
+    *Understanding Loops*
+    
+    * The `loop` keyword allows you to iterate through a simple list of items
+    * Before Ansible 2.5, the `items` keyword was used instead 
+      
+      `- name: start some services`
+      `  service:`
+            `name: "{{ item }}"`
+            `state: started`
+        `loop:`
+            `- vsftpd`
+            `- httpd`
+            
+    * The list that loop is using can be defined by a variable: 
+      
+      `vars:`
+        `my_services:`
+            `- httpd`
+            `- vsftpd`
+        `tasks:`
+            ` - name: start some services`
+                `service:`
+                    `name: "{{ item }}"`
+                    `state: started`
+                `loop: "{{ my_services }}"`
+
+    * Each item in a loop can be a hash/dictionary with multiople keys in each hash/dictionary 
+      
+      `-name: create users using a loop`
+       `hosts: all`
+       `tasks:`
+        `- name: create users`
+          `user:`
+            `name: "{{ item.name }}"`
+            `state: present`
+            `groups: "{{ item.groups }}"`
+          `loop:`
+            `- name: user1`
+              `groups: wheel`
+            `- name: user2`
+              `groups: users`
+      
+    * The `loop` keyword is the current keyword
+    * In previous versions of Ansible, the `with_*` keyword was used for the same purpose
+    * This syntax will probably be deprecated in future versions of Ansible 
+      * `with_items`: equivalent to the `loop` keyword
+      * `with_file`: the `item` contains a file, which contents is used to loop through
+      * `with_sequence`: generates a list of values based on a numeric sequence
+
+== Using Register Variables with Loops ==
+
+    *Understanding register*
+    
+    * A `register` is used to store the output of a command and address it as a variable
+    * You can next use the result of the command in a conditional or in a loop
+
+== User when to Run Tasks Conditionally ==
+
+    *Using Conditions*
+    
+    * `when` statements are used to run a staks conditionally
+    * A condition can be used to run a task only if specific conditions are true
+    * Playbook vairables, registered variables, and facts can be used in conditions and make 
+      sure that takss only run if specific conditions are true
+    * For instance, check if a taks has run successfully, a certain amount of memory is 
+      available, a file exist, etc
+
+    *Defining Simple Conditions*
+    
+    * The simplest example of a cindition, is to check whether a boolean variable is 
+      true or false
+    * You can also check and see if a non-boolean variable has a value and use that value 
+      in the conditional
+    * Or use a conditional in which you compare the value of a fact to the specific value 
+      of a variable
+    
+    *Examples*
+    
+    * `ansible_machine == "x86_64"`
+    * `ansible_distribution_major_version == "8"`
+    * `ansible_memfree_mb == 1024`
+    * `ansible_memfree_mb > 256`
+    * `my_variable is defined`
+    * `my_variable is not defined`
+    * `ansible_distribution in supported_distros`
+
+== Testing Multiple Conditions ==
+
+    * `when` can be used to test multiple conditions as well
+    * Use `and` or `or` and group the conditions with parentheses 
+      
+      `when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"`
+      `when: ansible machine == "x86_64" and ansible_distribution == "CentOS"`
+      
+    * The `when` keyword also supports a list, and when using a list, all of the conditions 
+      must be true
+    * Complex conditional statements can group conditions using parentheses
+
+    *Combining Loops and Conditionals*
+    
+    * Loops and conditionals can be combined
+    * For instance, you can iterate through a list of dictionaries and apply the 
+      conditional statement only if a  dictionary is found that matches the condition
+
+== Using Handlers ==
+
+    *Understanding Handlers*
+    
+    * Handlers allow you to configure playbooks in a way tha one task will only run if 
+      another task has been running successfully 
+    * In order to run the handler, a `notify` statement is used from the main task to 
+      trigger the handler
+    * Handlers typically are used to restart services or reboot hosts
+    * Handlers are sexecuted after running all tasks in a play
+    * Handlers will only run if a task has changed something, so if an ok result instead 
+      of a changed result is reported, the handler will not run
+    * If one of the tasks fails, the handler will not run, but this may be overwritten 
+      using `force_handlers: True`
+    * One task may trigger more than one handler
+
+== Using Blocks ==
+
+    *Understanding Ansible Blocks*
+    
+    * A block is a logical group of tasks
+    * It can be used to control how tasks are executed
+    * One block can, for instance , be neabled using a single `when`
+    * Blocks can also be used in error condition handling:
+        * Use `block` to define the main tasks to run
+        * Use `rescue` to define tasks that run if tasks defined in the `block` fail
+        * Use `always` to define tasks that will run, regardless of the success 
+          or failure of the `block` and `rescue` tasks
+    * `items` cannot be used on blocks
+
+== Dealing with Failures ==
+
+    *Understanding Failure Handling*
+    
+    * Ansible looks at the exit status of a task to determine whether it has 
+      failed
+    * When any task fails, Ansible aborts the rest of the play on that host and 
+      continues with the next host
+    * Different solutions can be used to change that behavior
+    * Use `ignore_errors` in a task to ignore failures
+    * Use `force_handlers` to force a handler that has been triggered to run, 
+      even if (another) task fails
+
+    *Defining Failure States*
+    
+    * As Ansible only looks at the exit status of a failed task, it may think a 
+      task was successful where that is not the case
+    * To be more specific, use `failed_when` to spoecify what to look for in 
+      command output to recognize a failure
+
+    *Using the fail Module*
+    
+    * The `failed_when` keyword can be used in a task to identify when a task has 
+      failed
+    * The `fail` module can be used to print a message that informs why a task 
+      has failed
+    * To use `failed_when` or `fail`, the result of the command must be registered, 
+      and the registered variable output must be analyzed
+    * When using the `fail` module, the failing task must have `ignore_errors` 
+      set to yes
+
+== Mangaging Changed Status ==
+
+    *Handling Changed Status*
+    
+    * Managing the changed status may be important, as handlers trigger on the 
+      changed status
+    * The result of a command cna be registered, and the registered variable 
+      can be scanned for specific text to determine that a change has ocurred
+    * This allows Ansible to report a changed status, where it normally would 
+      not, thus allowing handlers to be triggered
+    * Using `changed_when` is usable in two cases:
+        * to allow handlers to run when a change would not normally trigger
+        * to disable commands that run successful to report a changed status
+
+== Lab: Implementing Tasks ==
+
+    * Write a playbook that will install and run the mariadb database service. It 
+      should install the mariadb-server as well as the python3-PyMySQL package,
+      and it should only install on managed nodes that are using RHEL 8.0
+    * Only if the database service could be started successfully, the `mysql_user` 
+      module should be used to set the database root user password

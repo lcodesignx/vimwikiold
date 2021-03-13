@@ -1,0 +1,12 @@
+== GSON Library ==
+
+*Import library*
+    `import com.google.gson.*;`
+    
+*From object to JSON string*
+    `Gson gson = new Gson();`
+    `String json = gson.toJson(obj);`
+    
+*From JSON string to object*
+    `Gson gson = new Gson();`
+    `Object obj = gson.fromJson(json, Object.class);`

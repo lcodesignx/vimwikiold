@@ -1,0 +1,28 @@
+== Splunk - Splexicon ==
+
+    *Splexicon*
+    
+    * docs.splunk.com/Splexicon
+
+== What Data Looks Like in Splunk - Events ==
+
+    *Event*
+    
+    * A single piece of data in Splunk software is similar to a record in a log file or other data input
+    * When data is indexed, it is divided into individual events
+    * Each event is given a timestamp, host, source, and sourcetype
+    * Often, a single event corresponds to a single line in your inputs, but some inputs 
+      (for example, XML or JSON formatted logs) have multiline events, and some inputs have multiple events 
+      on a single line
+    * When you run a successful search, you get back events
+    * Similar events can be categorized together with event types
+
+== Getting Data Out of Splunk - Search ==
+
+    *Search*
+    
+    * Is the primary way users navigate data in SPluk Enterprise
+    * Can wirte a search to retrieve events from an index, use statistical commands to calculate metrics and 
+      generate reports, search for specific conditions within a rolling time range window, identify patterns 
+      in your data, predict future trends, and so on
+    * You can save searches as reports and use them to power dashboard panels
