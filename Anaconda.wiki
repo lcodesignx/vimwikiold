@@ -1,0 +1,21 @@
+== Initialize Conda Environment ==
+    * Conda init 
+      `conda init zsh`
+    * Keep conda from activating on startup 
+      `conda config --set auto_activate_base false`
+    * Manually activate and deactivate conda 
+      `conda activate`
+      `conda deactivate`
+      
+== Create Custom Channel ==
+
+    * Create directory 
+      `mkdir -p /opt/channel/linux-64`
+    * Copy packages to new channel 
+      `cp ~/Downloads/pandoc-plot-1.1.1-h694c41f_0.tar.bz2`
+    * Index the custom channel 
+      `conda index /opt/channel`
+    * Test the new custom channel by overriding defaults 
+      `conda search -c file:///opt/channel/ --override-channels`
+    * Next add custom channel to .condarc or manually provide custom channel 
+      `conda install -c file:///opt/channel/ pandoc-plot`
