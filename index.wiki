@@ -29,6 +29,7 @@
     * [[PostgreSQL]]: Documentation
     * [[MySQL]]: Documentation
     * [[Git Commands]]: Basic Git commands used often.
+    * [[Anaconda]]: Python distribution
 
 == Cybersecurity ==
 
