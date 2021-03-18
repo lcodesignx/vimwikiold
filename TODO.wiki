@@ -5,6 +5,7 @@ TODO:
 * [ ] Check if there are audit rules configured on the MINI-EDM systems
 * [ ] Move the GPU from old CDS system to the new one
 * [ ] Set up driver for the new CDS system and configure the three monitors
+* [ ] Create ansible playbook for oscap scans
 
 DONE:
 
