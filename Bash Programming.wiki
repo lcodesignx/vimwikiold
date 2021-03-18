@@ -30,6 +30,7 @@
     * `-s FILE` : true if file exists and is not empty.
     * `-w FILE` : true if the file is writable by you.
     * `-x FILE` : true if the file is executable by you.
+    * `-z string` : true if the length of string is zero.
 *Example:*
     `[ -x $HOME/bin/hw ]`   ## true if you can execute the file
     
