@@ -1,0 +1,15 @@
+== Keybord Shortcuts ==
+
+    *Ubuntu*
+    
+    * `Ctrl+Alt+T`: Ubuntu terminal shortcut
+    * `Super+L` or `Ctrl+Alt+L`: Locks the screen
+    * `Super+D` or `Ctrl+Alt+D`: Show desktop
+    * `Super+A`: Shows the application menu
+    * `Super+Tab` or `Alt+Tab`: Switch between running applications
+    * `Super+Arrow keys`: Snap windows
+    * `Super+M`: Toggle notification tray
+    * `Alt+F2`: Run console
+    * `Ctrl+Q` or `Ctrl+W`: Close an application window
+    * `Ctrl+Alt+arrow`: Move between workspaces
+    * `Ctrl+Alt+Del`: Log out
