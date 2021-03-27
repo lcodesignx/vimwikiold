@@ -53,6 +53,7 @@
 
 == Linux ==
 
+    * [[Shortcuts]]: useful shortcuts for linux distros
     * [[KVM]]: Kernel Virtual Machine
     * [[Journald]]: Managing Journald
     * [[Certificates]]: Creating self-signed certificates
