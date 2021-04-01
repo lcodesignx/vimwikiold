@@ -31,6 +31,7 @@
     * `-w FILE` : true if the file is writable by you.
     * `-x FILE` : true if the file is executable by you.
     * `-z string` : true if the length of string is zero.
+    * `-L FILE` : true if file exists and is symbolic link.
 *Example:*
     `[ -x $HOME/bin/hw ]`   ## true if you can execute the file
     

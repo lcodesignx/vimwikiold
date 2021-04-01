@@ -1,0 +1,129 @@
+== Initialize a Project Directory ==
+
+    *Create a directory*
+    
+    * `mkdir vagrant_getting_started`
+    * `cd vagrant_getting_started`
+
+    *Initialize the directory*
+    
+    * `vagrant init hashicorp/bionic64`
+
+== Install and Specify a Box ==
+
+    *Install a Box*
+    
+    * `vagrant box add hashicorp/bionic64`
+
+    *Use a Box*
+    
+    * Create a Vagrantfile and add the following code:
+        
+        `Vagrant.configure("2") do |config|`
+            `config.vm.box = "hashicorp/bionic64"`
+        `end`
+        
+    * Specify a specific Box version: 
+      
+        `Vagrant.configure("2") do |config|`
+            `config.vm.box = "hashicorp/bionic64"`
+            `config.vm.box_version = "1.0.282"`
+        `end`
+        
+== Boot an Environment ==
+
+    *Bring up a virtual machine*
+    
+    * Run the following from the terminal: 
+      `vagrant up`
+      
+    * SSH into the machine: 
+      `vagrant ssh`
+      
+    * Destroy the machine: 
+      `vagrant destroy`
+      
+    * List and remove a Box: 
+      `vagrant box list`
+      `vagrant box remove hashicorp/bionic64`
+
+== Synchronize Local and Guest Files ==
+
+    * By default, Vagrant shares your project directory (the one containing the 
+      Vagrantfile) to the /vagrant directory in the guest machine
+
+== Provision a Virtual Machine ==
+
+    *Create an HTML directory*
+    
+    * Create a directory where Apache will look for your content 
+      `mkdir html`
+    * Next create an index.html file in the new directory
+
+    *Write a provisioning script*
+    
+    * Create the following shell script and save it as bootstrap.sh in the same 
+      directory as your Vagrantfile 
+      
+      `#!/usr/bin/env bash`
+      `apt-get update`
+      `apt-get instal -y apache2`
+      `if ! [ -L /var/www ]; then`
+        `rm -rf /var/www`
+        `ln -fs /vagrant /var/www`
+      `fi`
+
+    * Configure Vagrant: 
+      
+      `Vagrant.configure("2") do |config|`
+        `config.vm.box = "hashicorp/bionic64"`
+        `config.vm.provision :shell, path: "bootstrap.sh"`
+      `end`
+      
+    * Provision the webserver:
+        `vagrant reload --provision`
+
+== Configure the Network ==
+
+    *Configure port forwarding*
+    
+    * Port forwarding allows you to specify ports on the guest machine to share via 
+      port on the host machine. This allows you to access a port on your own 
+      machine, but actually have all the network traffic forwarded to a specific 
+      port on the guest machine.
+        
+      `Vagrant.configure("2") do |config|`
+        `config.vm.box = "hashicorp/bionic64"`
+        `config.vm.provision :shell, path: "bootstrap.sh"`
+        `config.vm.network :forwarded_port, guest: 80, host: 4567`
+      `end`
+
+    * Reload the VM: 
+      `vagrant reload`
+
+== Teardown an Environment ==
+
+    *Suspend the machine*
+    
+    * Suspending the virtual machine will stop it and save its current running 
+      state. 
+      `vagrant suspend`
+    * When begining work again bring the machine back up and its state resumes 
+      from where you left off. 
+      `vagrant up`
+        
+    *Halt the machine*
+    
+    * Halting the machine will gracefully shut down the guest operating system 
+      and power down the guest machine. 
+      `vagrant halt`
+    * Halting the machine will cleanly shit it down, preserving the contents of 
+      disk and allowing you to cleanly start it again. 
+      `vagrant up`
+
+    *Destroy the machine*
+    
+    * Destroying the virtual machine will remove all traces of the guest machine 
+      from your system. It'll stop the guest machine, power it down, and reclaim
+      its disk space and RAM.
+      `vagrant destroy`
