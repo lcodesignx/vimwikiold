@@ -1,3 +1,7 @@
+= Contents =
+        - [[#Using Modules to Manipulate Files|Using Modules to Manipulate Files]]
+        - [[#Managing SELinux File Context|Managing SELinux File Context]]
+
 == Using Modules to Manipulate Files ==
 
     *Common File Modules*

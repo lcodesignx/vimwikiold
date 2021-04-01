@@ -1,10 +1,6 @@
 TODO:
 
-* [ ] Create splunk index for atlassian logs
 * [ ] Set up httpd server for svn repos on RHEL7
-* [ ] Check if there are audit rules configured on the MINI-EDM systems
-* [ ] Move the GPU from old CDS system to the new one
-* [ ] Set up driver for the new CDS system and configure the three monitors
 
 DONE:
 
@@ -47,3 +43,8 @@ DONE:
 * [X] Change IPv4 method to Static on all Docker Enterprise Nodes
 * [X] Update Atlassian suite license on SEWIP
 * [X] Check Atlassian licenses
+* [X] Check if there are audit rules configured on the MINI-EDM systems
+* [X] Move the GPU from old CDS system to the new one
+* [X] Set up driver for the new CDS system and configure the three monitors
+* [X] Create ansible playbook for oscap scans
+* [X] Create splunk index for atlassian logs
