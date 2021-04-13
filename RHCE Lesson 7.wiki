@@ -24,3 +24,59 @@
       on files)
     * Notice that file sets SELinux context directly on the file (like the 
       `chcon` command), and not in the policy
+
+== Using Jinja2 Templates ==
+
+    *Understanding Jinja2 Templates*
+    
+    * `lineinfile` and `blockinfile` can be used to apply simple modifications 
+      to files
+    * For more advanced modifications, use Jinja2 templates
+    * While using templates, the target files are automatically customized 
+      using variables and facts
+    * In a Jinja2 template, you will find multiple elements:
+        * data
+        * variables
+        * expressions
+        * control structures
+    * The variables in the template are replaced with their values when the 
+      Jinja2 template is rendered to the target file on the managed host
+    * If using variables, they can be specified using the `vars` sections of the 
+      playbook
+    * Alternatively, Ansible facts can be used as variables
+
+    *Avoiding Confusion When Using Templates*
+    
+    * To prevent adminsitrators from overwriting files that are managed by Ansible 
+      set the ansible_managed string: 
+      * First, in ansible.cfg set `ansible_managed = Ansible managed`
+      * On top of the Jinja2 template, set the {{ ansible_managed }} variable
+
+== Using Control Structures in Jinja2 ==
+
+    *Using Control Structures in Templates*
+    
+    * In Jinja2 templates, control stuctures can be used to organize the template 
+      in a optimal way
+    * The `for` statement can be used to iterate through a variale and use all 
+      values in the variable
+    * The `if` statement can be used to have the template work with a variable if 
+      another variable is defined
+
+== Lab: Deploying Files with Templates ==
+
+    * To configure Anonymous FTP upload, you'll need to make sure that the 
+      following is accomplished: 
+        
+        * `vsftpd.conf` is modified to allow anonymous FTP access and uploads
+        * The directory `/var/ftp/pub` is configured with the appropriate permissions
+        * The directory `/var/ftp/pub` is configured with the appropriate SELinux 
+          context label
+        * The SELinux boolean ftpd_anon_write is set to on
+
+    * Create a playbook that ensures that the vsftpd service is installed, enabled, 
+      the firewall is opened, and the above requirements are met. Define 
+      variables in the playbook to set vsftpd.conf parameters, and use these in a
+      temmplate
+    * At the end of the playbook, verify connectivity, uploading the /etc/hosts 
+      file from localhost
