@@ -1,0 +1,56 @@
+== Understanding Directory Structure Best Practices ==
+
+    *Organizing Ansible Contents*
+    
+    * When working with Ansible, it's recommended to use project directories so 
+      that contents can be organized in a consistent way
+    * Each project directory may have its own ansible.cfg, inventory as well as 
+      playbooks
+    * If the directory grows bigger, variable files and other include files may 
+      be used
+    * And finally, roles can be used to standarize and easily re-use specific 
+      parts of Ansible
+    * For now, consider a role a complete project dedicated to a specific task 
+      that is going to be included in the main playbook
+
+    *Directory Layout Best Practices*
+    
+    * Ansible Documentation describes best practices:
+        * https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
+    * Some highlights:
+        * On top in the directory, use site.yml as the master playbook
+        * From site.yml, call speecific playbooks for specific types of host 
+          (webservers.yml, dbservers.yml, etc.)
+        * Consider using different inventory files to differentiate between 
+          production and staging phases
+        * Use `group_vars/` and `hosts_vars/` to set host related variables
+        * Use roles to standarize common tasks
+
+== Understanding Ansible Roles ==
+
+    *Understanding Roles*
+    
+    * Ansible Playbooks can be very similar: code used in one playbook can be 
+      useful in other playbooks also
+    * To make it easy to re-use code, roles can be used. A role is a collection 
+      of tasks, variables, files, templates and other resources in a fixed directory 
+      structure that, as such, can easily be included from a playbook
+    * Roles should be written in a generic way, such that play specifics can be 
+      defined as variables in the play, and overwrite the default variables that 
+      should be set in the role
+    * Using Roles makes working with large projects more manageable
+
+    *Understanding Roles Default Structure*
+    
+    * `defaults` contains default values of role variables. If variables are set 
+      at the play level as well, these default values are overwritten
+    * `files` may contain statif files that are needed from the role tasks
+    * `handlers` has a main.yml that defines handlers used in the role
+    * `meta` has a main.yml that may be used to include role metadata, such as 
+      information about author, license, dependencies and more
+    * `tasks` contains a main.yml that defines the role stask definitions
+    * `templates` is used to store Jinja2 templates
+    * `tests` may contain an optional inventory file, as well as a test.yml 
+      playbook that can be used to test the role
+    * `vars` may contain a main.yml with standard variables for the role (which are 
+      not meant to be overwritten by playbook variables)
