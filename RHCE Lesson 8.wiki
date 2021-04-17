@@ -54,3 +54,70 @@
       playbook that can be used to test the role
     * `vars` may contain a main.yml with standard variables for the role (which are 
       not meant to be overwritten by playbook variables)
+
+    *Understanding Role Variables*
+    
+    * Variables can be dfined at differentl levels in a role
+    * `vars/main.yml` has the role default variables, which are used in default 
+      role functioning. They are not intended to be overwritten
+    * `defaults/main.yml` can contain default variables. These have a low precedence 
+      and can be overwritten by variables with the same name that are set in the 
+      playbook and which have higher precedence
+    * Playbook variables will always overwrited the variables as set in the role. 
+      Site-specific variables such as secrets and vault envrypted data should 
+      always be managed from the playbook, as role variables are intended to be 
+      generic
+    * Role variables are defined in the playbook when calling the role and they 
+      have the highest precedence and overwrite playbook variables as well as 
+      inventory variables
+
+    *Understanding Role Location*
+    
+    * Roles can be obtained in many ways:
+        * Write your own roles
+        * For Red Hat Enterprise Linux, the rhel-system-roles package is available
+        * The community provides role through the Ansible Galaxy website
+    * Roles can be stored at a default location, and from there can easily be used 
+      from playbooks:
+        * `./roles` has highes precedence
+        * `~/.ansible/roles` is checked after that
+        * `/etc/ansible/roles` is checked next
+        * `/usr/share/ansible/roles` is checked last
+
+    *Using Roles in a Playbook*
+    
+    * Roles are referred to from playbooks
+    * When roles are used, they will run before any task that is defined in the 
+      playbook
+      
+      `---`
+      `- name: role demo`
+        `hosts: all`
+        `roles:`
+          `- role1`
+          `- role2`
+
+    *Defining Role Variables*
+    
+    * When calling a role, role variables can be defined
+
+      `---`
+      `- name: role demo`
+        `hosts: all`
+        `roles:`
+          `- role1`
+          `- role2`
+            `var1: cow`
+            `var2: goat`
+
+== Using Ansible Galaxy for Standard Roles ==
+
+    *Using Ansible Galaxy*
+    
+    * Administrators can define their own roles, or standard roles can be used 
+      from Ansible Galaxy
+    * Ansible Galaxy is a public website where community provided roles are 
+      offered
+    * Before writing your own roles, check Galaxy, you may get the roles from 
+      there
+    * An easy-to-use search interface is available at https://galaxy.ansible.com
