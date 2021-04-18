@@ -1,6 +1,9 @@
 = Contents =
         - [[#Using Modules to Manipulate Files|Using Modules to Manipulate Files]]
         - [[#Managing SELinux File Context|Managing SELinux File Context]]
+        - [[#Using Jinja2 Templates|Using Jinja2 Templates]]
+        - [[#Using Control Structures in Jinja2|Using Control Structures in Jinja2]]
+        - [[#Lab: Deploying Files with Templates|Lab: Deploying Files with Templates]]
 
 == Using Modules to Manipulate Files ==
 

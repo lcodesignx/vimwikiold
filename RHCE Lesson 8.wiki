@@ -1,3 +1,13 @@
+= Contents =
+        - [[#Understanding Directory Structure Best Practices|Understanding Directory Structure Best Practices]]
+        - [[#Understanding Ansible Roles|Understanding Ansible Roles]]
+        - [[#Using Ansible Galaxy for Standard Roles|Using Ansible Galaxy for Standard Roles]]
+        - [[#Using the Ansible galaxy Command Line Tool|Using the Ansible galaxy Command Line Tool]]
+        - [[#Creating Custom Roles|Creating Custom Roles]]
+        - [[#Managing Order of Execution|Managing Order of Execution]]
+        - [[#Understanding RHEL System Roles|Understanding RHEL System Roles]]
+        - [[#Lab: Using Ansible Roles|Lab: Using Ansible Roles]]
+
 == Understanding Directory Structure Best Practices ==
 
     *Organizing Ansible Contents*
@@ -121,3 +131,120 @@
     * Before writing your own roles, check Galaxy, you may get the roles from 
       there
     * An easy-to-use search interface is available at https://galaxy.ansible.com
+
+== Using the Ansible galaxy Command Line Tool ==
+
+    *Using the Galaxy CLI Utility*
+    
+    * `ansible-galaxy search` will search for roles:
+        * If an argument is provided, `ansible-galaxy` wil lsearch for this argument 
+          in the role description
+        * Use options `--author`, `--platforms`, and `--galaxy-tags` to narrow down 
+          the search results
+        * `ansible-galaxy search wordpress --platforms EL`
+    * `ansible-galaxy info` provides information about roles:
+        * `ansible-galaxy info bertvv.wordpress`
+    * `ansible-galaxy install` downloads a role and installs it in ~/.ansible/roles
+    * After download, these roles can be used in playbooks, like any other role
+
+    *Managing Roles*
+    
+    * `ansible-galaxy list` shows installed roles
+    * `ansible-galaxy remove` can be used to clean up and remove roles
+    * `ansible-galaxy init` creates a directory structure that can be used to start 
+      developing your own role: 
+      * It interacts with the Ansible Galaxy website API
+      * Specify username and role name as arguments
+      * `ansible-galaxy init user.myrole`
+
+    *Using a Requirements File*
+    
+    * `ansible-galaxy` can be used to install a list of roles based on definitions 
+      in a requirements file
+    * A requirements file is a yml file that defines a list of required roles that are 
+      specified using the `src` keyword
+    * The `src` keyword can contain the name of a role from Ansible Galaxy, or a URL 
+      to a custom location pointing to your own roles
+    * Create roles/requirements.yml in the projects directory to use it
+    * Always specify the optional `version` attribute, to avoid getting surprises 
+      when a newer version of a role has become available 
+      
+      `- src: file:///opt/local/roles/myrole.tar`
+        `name: myrole`
+        `version: 1.0`
+        
+    * To install roles using a requirements file, use `ansible-galaxy install -r roles/requirements.yml`
+
+== Creating Custom Roles ==
+
+    *Creating Roles*
+    
+    * To create your own roles, use `ansible-galaxy init myrole ` to create the role 
+      directory structure
+    * Mind the location of the directory stucture, you can put it in the local project 
+      directory, or in a directory that is accessible for all projects
+    * Populate the required role files as discussed before
+
+    *Creating Roles - Best Practices*
+    
+    * Each role shoudl have its own version control repository
+    * Don't put sensitive information int the role, but in the local playbooks or 
+      Ansible Vault insted
+    * Use `ansible-galaxy init` to create the role structure
+    * Don't forget to edit the README.md and the meta/main.yml to contain documentation 
+      about your role
+    * Roles should be dedicated to one task/function. use multiple roles to manage 
+      multiple tasks/functions
+    * Have a look at existing (Galaxy) roles before starting to write your own
+
+    *Defining Role Dependencies*
+    
+    * The meta/main.yml can be used to define role dependencies
+    * Dependencies listed here will be installe dautomatically when this role is used
+
+    *Using Conditional Role*
+    
+    * Conditional roles call a role dynamically, using the `include_role` module 
+        * This makes it so conditional roles are treated more as tasks
+  * Conditional Roles can be combined with conditional statements 
+        * This makes it so a role will only run if the conditional statement is true 
+        * Use `include_role` in a task statement to do so
+
+        `---`
+        `- hosts: lamp`
+          `tasks:`
+          `- include_role:`
+                `name: lamp`
+            `when: "ansible_facts['os_family'] == 'RedHat'"`
+
+== Managing Order of Execution ==
+
+    *Understanding Role Order of Execution*
+    
+    * Role tasks are always executed before playbook tasks
+    * Next, playbook tasks are executed
+    * And after playbook tasks, handlers are executed
+    * Use `pre_tasks` to define playbook tasks that are to be executed before the 
+      tasks in a role
+        * If these tasks notify a handler, this handler is executed before as well
+    * The `post_tasks` keyword can be used to define playbook tasks that are 
+      executed after playbook tasks and roles
+
+== Understanding RHEL System Roles ==
+
+    *Understanding RHEL System Roles*
+    
+    * The rhel-system-roles package can be installed to provide some standard 
+      roles form RHEL 6.10 and later
+    * These roles are based on the community linux-system-roles and supported by 
+      Red Hat support
+    * Use the rhel-system-roles to overcome the difference between configuration 
+      choices on RHEL6, 7, and 8
+
+== Lab: Using Ansible Roles ==
+
+    * Create a role that configures an Apache vhost on the managed hosts in the 
+      group lamp
+    * Have it include a template to create a minimal vhost configuration file in 
+      which all references to the hostname are replaced with Ansible facts
+    * Use an ad-hoc command to test working of the vhost
