@@ -1,0 +1,34 @@
+== Understanding RHEL System Roles ==
+
+    *Understanding RHEL System Roles*
+    
+    * RHEL system roles are provided to configure standard RHEL operations
+    * RHEL system roles have been provided since RHEL 7.4, and can be used to configure 
+      RHEL 6.10 and later
+    * Install the rhel-system-roles package to use them
+    * RHEL system roles are derived from the Ansible Linux System Roles project, 
+      which is available through Ansible Galaxy
+
+    *Current RHEL System Roles*
+    
+    * Currently, the following RHEL system roles are provided: 
+        * `rhel-system-roles.kdump` configures the kdump crash recovery service
+        * `rhel-system-roles.network` configures network interfaces
+        * `rhel-system-roles.selinux` manages all aspects of SELinux
+        * `rhel-system-roles.timesync` is used to set up Netowrk Time Protocol or 
+          Precision Time Protocol
+        * `rhel-system-roles.postfix` is used to configure a host as a Postfix MTA
+        * `rhel-system-roles.firewall` configures a firewall
+        * `rhel-system-roles.tuned` configures the tuned service
+    * Additional RHEL system roles are likely to be introduced
+
+== Installing RHEL System Roles ==
+
+    *Installing RHEL System Roles*
+    
+    * Use `yum install rhel-system-roles` to install them
+    * The roles are installed to the /usr/share/ansible/roles directory, notice that 
+      the upstream linux-system-roles name is provided as a symbolic link to provide 
+      maximum compatibility
+    * Documentation of Ansible system roles is available in /usr/share/doc/rhel-system-roles-<version>
+    * Look for example YAML files in the role directories
