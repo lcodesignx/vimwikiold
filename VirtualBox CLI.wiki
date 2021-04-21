@@ -1,0 +1,38 @@
+== An Introduction to the VirtualBox CLI ==
+
+    *Basic Commands*
+    
+    * List all registered VMs: 
+      `vboxmanage list vms`
+    * List all running VMs: 
+      `vboxmanage list runningvms`
+    * To start a VM, run `vboxmanage start vm <name or UUID>`. You can optionally 
+      specify a `--type` paramenter to control how the VM is started. Using `--type gui` 
+      will show it via the host GUI; using --type headless means you'll need to 
+      interact over the network (typically via SSH). To emulate Vagrant/Docker 
+      Machine like behavior, you'd use `--type headless`.
+    * Once a VM is running, you'll switch to `vboxmanage controlvm <subcommand>` 
+      for most other operations. Valid `<subcommands>` related to VM state operations 
+      include *pause*, *resume*, *reset*, *poweroff*, and *savestate*.
+    * To unregister (remove) a stopped VM, the command `vboxmanage unregister <name or UUID>` 
+      will do it. This does not delete the VM's files. To delete the files, add 
+      the `--delete` flag to the command.
+      
+    *Modifying the Configuration of a Running VM*
+    
+    * To simulate a "disconnected" eth0 link in the VM, use `vboxmanage controlvm <name or UUID> setlinkstate1 off`. 
+      (As with the "nicpromis" command, the number on the end of "setlinkstate" refers 
+      to the number of the NIC you'd like to affect). Run `vboxmanage controlvm <name or UUID> setlinkstate on` 
+      to restore the connection.
+    * You can change a NIC's promiscuous mode setting on the fly while the VM is 
+      running; just use `vboxmanage controlvm <name or UUID> nicpromisc<num> allow-all`. 
+      To make "eth1" in the VM named "vm-name" promiscuous, for example, you'd 
+      run `vboxmanage controlvm vm-name nicpromisc2 allow-all`. Change "allow-all" 
+      to "deny" to reverse the effect.
+    * To change the configuration of a NIC --meaning, to change the VirtualBox 
+      network to which ti connects -use `vboxmanage controlvm nic<num> <network type>`. 
+      For example, to connect "eth1" to a hostonly network, you'd use 
+      `vboxmanage controlvm <name or UUID> nic2 hostonly`.
+    
+    * This is only a subset of what you can do with `vboxmanage`; use `vboxmanage <command> help` 
+      to get more information on the options available for each command.
