@@ -1,12 +1,6 @@
 TODO:
 
 * [ ] Set up httpd server for svn repos on RHEL7
-<<<<<<< HEAD
-=======
-* [ ] Check Core dumps on sewip rhel6 systems and set the abr service. [[Config]].
-* [ ] Configure sewip mariadb database to lower case insensitive.
-* [ ] Splunk STIG
->>>>>>> eb3efee47821e7521312d89918816e1090a0bf26
 
 DONE:
 
@@ -56,3 +50,6 @@ DONE:
 * [X] Create splunk index for atlassian logs
 * [X] Check Core dumps on sewip rhel6 systems and set the abr service. [[Config]].
 * [X] Configure sewip mariadb database to lower case insensitive.
+* [X] Check Core dumps on sewip rhel6 systems and set the abr service. [[Config]].
+* [X] Configure sewip mariadb database to lower case insensitive.
+* [X] Splunk STIG
