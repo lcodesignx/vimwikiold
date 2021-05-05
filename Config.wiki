@@ -1,0 +1,57 @@
+    *Issue*
+    
+    * How to collect core dump file of a program on RHEL6 and above
+    * How to report an application crash in RHEL6 and above
+    * How to configure abrt to automatically generate an application core
+    
+    *Resolution*
+    
+    Red Hat Enterprise Linux 6/7/8 has a service called abrt, which automatically 
+    collects the core dump files on the server and stores them inside the /var/spool/abrt.
+
+    * Ensure that the system is set up to generate application cores by removing the core limits:
+
+        `ulimit -c unlimited`
+
+    * Make sure abrt and abrt-addon-ccpp is installed
+
+        `yum install abrt abrt-addon-ccpp abrt-tui`
+    
+    * Ensure the ccpp hooks are installed:
+
+        `abrt-install-ccpp-hook install`
+        `abrt-install-ccpp-hook is-installed; echo $?;`
+    
+    * The second command should return 0 (hooks installed)
+
+    * Ensure that this service is up and the ccpp hook to capture core dumps is enabled:
+
+        `service abrtd start`
+        `service abrt-ccpp start`
+    
+    *for RHEL 7 and 8*
+
+        `systemctl start abrtd.service`
+        `systemctl start abrt-ccpp.service`
+        
+    *for RHEL 7/8*
+
+    * To look for core dumps using the GUI, run the command:
+
+        `abrt-gui`
+
+    * To get a list of crashes on the command line, issue the following command:
+
+        `abrt-cli list`
+    
+    * To generate a report of a specific crash:
+
+        `abrt-cli report DUMPDIR`
+    
+    * Choose the RHTSupport option to reports crashes into the Red Hat Technical Support system.
+      Alternatively, you may use the abrt-cli command to get detailed information about particular crash:
+
+        `abrt-cli info DUMPDIR`
+    
+    * Locate the coredump file path, and provide the entire directory to the Red Hat Support representative.
+

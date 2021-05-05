@@ -1,0 +1,119 @@
+== Managing Inventories ==
+
+    *Understanding Inventory Options*
+    
+    * A static inventory file can be used as a list of managed hosts
+    * Dynamic inventory can automatically discover hosts, by talking to an external 
+      host management system, such as FreeIPA, Active Directory, Red Hat Satellite and more
+    * Also, multiple inventories can be used, for instance by putting multiple inventory 
+      files in a directory and use that as the source of inventory
+      
+    *Managing Dynamic Inventory*
+    
+    * Dynamic inventory scripts are available for different environments:
+        * Check https://github.com/ansible/tree/devel/contrib/inventory
+    * They are used like static inventory files, through ansible.cfg, or using the 
+      `-i` option to the `ansible[-playbook]` command
+    * Instead of using community dynamic inventory scripts, you can also write your own
+
+    *Writing Dynamyc Inventory Scripts*
+    
+    * The only requirement is that the script returns the inventory information in 
+      JSON format
+    * To see the correct output format, use `ansible-inventory --list` on any inventory
+    * Scripts can be written in any language, but Python is common
+
+== Addressing Host Patterns ==
+
+    *Addressing Hosts*
+    
+    * By default, hosts are addressed with their host name as specified in inventory
+    * IP addresses can also be used
+    * Host groups are common and are defined in inventory:
+        * Group `all` is implicit and doesn't have to be defined
+        * Group `ungrouped` is also implicit and addresses all hosts that are not 
+          members of a group
+    * Wildcards can also be used, `-hosts: '*'` is equivalent to `-hosts: all`
+    * If special characters are used, always put them between quotes to avoid the 
+      special character being interpreted by the shell
+      
+    *Addressing Hosts Wildcard Examples*
+    
+    * `- hosts: '*.example.com'`
+    * `- hosts: '192.168.*'`
+    * `- hosts: 'web*'`
+    * `- hosts: web1,db1,192.168.4.2`
+    * `- hosts: web, &eastcost`
+    * `- hosts: web, !web1`
+    * `- hosts: all, !web`
+
+== Configuring Parallelism ==
+
+    *Understanding Processing Order*
+    
+    * Plays are executed in order on all hosts referred to, and normally Ansible will 
+      start the next task if this task successfully completed on all managed hosts
+    * Ansible can run on multiple managed hosts simultaneously, but by default the 
+      maximum number of simultaneous hosts is limited to five
+    * Set `forks = n` in ansible.cfg to change the maximum number of simultaneous hosts
+    * Alternatively, use `-f nn` to specify the max number of forks as argument to 
+      the `ansible[-playbook]` command
+    * The default of 5 is veryl limited, so you can set this parameter much higher 
+      in paritcluar if most of the work is done on the managed hosts and not on the 
+      control node
+
+    *Managing Rolling Updates*
+    
+    * The default behavior of running on task on all hosts, and next proceed to the 
+      next task means that in cluster environments you may have all hosts temporarily 
+      being unavailable
+    * Use the `serial` keyword in the playbook to run hosts through the entire play 
+      in batches
+
+== Organizing Directory Structure ==
+
+    *Understanding Inclusion*
+    
+    * If playbooks grow larger, it is common to use modularity by using includes 
+      and imports
+    * Includes and imports can happen for playbooks as well as tasks
+    * An `include` is a dynamic process; Ansible processes the contents of the 
+      included files at the moment that this import is reached
+    * An `import` is a static process; Ansible preprocesses the imported file 
+      contents before tha actual play is started:
+        * Playbook imports must be defined at the beginning of the playbook, using 
+          `import_playbook`
+
+    *Including Tasks Files*
+    
+    * A task file is a flat list of tasks
+    * Use `import_tasks` to statically import a task file in the playbook, it will be 
+      included at the lcoation where it is imported
+    * Use `include_tasks` to dynamucally include a task file
+    * Dynamically including tasks means that some features are not available:
+        * `ansible-playbook --list-tasks` will not show the tasks
+        * `ansible-playbook --start-at-task` does not work
+        * You cannot trigger a handler in an imported tasks file from the main task file
+    * Best practice: store task files in a dedicated directory to make management easier
+
+    *When to Include Task Files*
+    
+    * When modularity is required, for instance to differentiate between groups of 
+      tasks that need to be executed against specific host types
+    * When different groups of IS staff are reponsible for different setup tasks
+    * If a task need to be executed only in specific cases
+
+    *Using Variables for External Plays and Tasks*
+    
+    * In the design, it is recommended to keep include files as generic as possible
+    * Define variables independently from the playbook 
+        * in separate include files
+        * usign `group_vars` and `host_vars`
+        * or using local facts
+    * This allow you to process different vaules on different groups of hosts, while still 
+      using the same playbook
+
+== Lab: Using Ansible in Large Environments ==
+
+    * Analyze the project in the lesson10/lab directory. Optimize it for use in a 
+      large environment
