@@ -36,3 +36,30 @@
     
     * This is only a subset of what you can do with `vboxmanage`; use `vboxmanage <command> help` 
       to get more information on the options available for each command.
+
+    *Create a VirtualBox VM from Terminal*
+    
+    * Create the VM: 
+      
+        `vboxmanage createvm --name [MACHINE NAME] --ostype [Os Type, ex: "RedHat (x64)"] --register --basefolder [PATH]`
+        
+    * Set Memory and Network: 
+      
+        `vboxmanage modifyvm [MACHINE NAME] --ioapic on`
+        `vboxmanage modifyvm [MACHINE NAME] --memory 2048`
+        `vboxmanage modifyvm [MACHINE NAME] --nic1 bridged`
+
+    * Create the Disk and Connect the CD ISO: 
+      
+        `vboxmanage createhd --filename [VMPATH/VMNAME_DISK.vdi] --size 20000 --format vdi`
+    
+        `vboxmanage storagectl [MACHINE NAME] --name "SATA Controller" --add sata --controller InterAhci`
+    
+        `vboxmanage storageattach [MACHINE NAME] --storagectl "SATA Controller" \`
+            `--port 0 --device 0 --type hdd --medium [VMPATH/VMNAME_DISK.vdi]`
+    
+        `vboxmanage storagectl [MACHINE NAME] --name "IDE Controller" --add ide \`
+            `--controller PIIX4`
+    
+        `vboxmanage modifyvm [MACHINE NAME] --boot1 dvd --boot2 disk`
+    
