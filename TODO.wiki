@@ -1,6 +1,7 @@
 TODO:
 
 * [ ] Set up httpd server for svn repos on RHEL7
+* [ ] rsync rhel6 repos
 
 DONE:
 
