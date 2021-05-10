@@ -2,3 +2,7 @@
 
     * [[Files and Exceptions]]
     * [[Web Scraping]]
+
+== Design Principles for Data Structures ==
+
+    * [[Fundamentals]]

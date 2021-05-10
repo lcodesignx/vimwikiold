@@ -1,0 +1,35 @@
+== Analysis Techniques ==
+
+    *Asymptomatic Analysis For Performance*
+    
+    * Characterize *time completxity* of method 
+      - Time for a method to complete
+      - Calculate time as function t(n) relating the number of steps given 
+        aggregate size, n
+    * Characterize *space complexity* of method 
+      - Amount of computer storage required
+      - Detarmine required space s(n) in similar fashion
+
+    *Data Structure Cost Model*
+    
+    * From data structure implementation, determine total number of steps based 
+      on n 
+      - Sequential, deterministic computing platform
+    * Assume a *constant cost* to every operation 
+      - Enables using t(n) to estimate execution time
+  
+    *Asymptotic Growth*
+    
+    * Evaluate t(n) as problem size n doubles 
+      - The true measure for understanding performance
+      - Goal to determine *order of growth* or O(f(n))
+      - A formal treatment of O(f(n)) can be found in textbooks
+
+    *Asymptotic Space Complexity*
+    
+    * How much extra storage is required 
+      - A secondary concern that cannot be ignored
+    * Sample Problem 
+      - Determine if `list` contains duplicate values
+      - Different solutions based on storage
+    
