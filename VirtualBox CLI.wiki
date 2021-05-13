@@ -13,7 +13,13 @@
       Machine like behavior, you'd use `--type headless`.
     * Once a VM is running, you'll switch to `vboxmanage controlvm <subcommand>` 
       for most other operations. Valid `<subcommands>` related to VM state operations 
-      include *pause*, *resume*, *reset*, *poweroff*, and *savestate*.
+      include *pause*, *resume*, *reset*, *poweroff*, and *savestate*. 
+      Examples: 
+        
+        `vboxmanage controlvm <name or UUID> poweroff`
+        `vboxmanage controlvm <name or UUID> reset`
+        `vboxmanage controlvm <name or UUID> savestate`
+    
     * To unregister (remove) a stopped VM, the command `vboxmanage unregister <name or UUID>` 
       will do it. This does not delete the VM's files. To delete the files, add 
       the `--delete` flag to the command.
