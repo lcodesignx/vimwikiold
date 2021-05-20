@@ -1,7 +1,6 @@
 TODO:
 
 * [ ] Set up httpd server for svn repos on RHEL7
-* [ ] rsync rhel6 repos
 * [ ] close ticket for adding admin account to cerberus page in confluence
 * [ ] Remove /etc/X11/xorg.conf and replacing with previous version
 * [ ] Update /etc/X11/xorg.conf by following the NVIDIA pdf instructions
@@ -57,3 +56,4 @@ DONE:
 * [X] Check Core dumps on sewip rhel6 systems and set the abr service. [[Config]].
 * [X] Configure sewip mariadb database to lower case insensitive.
 * [X] Splunk STIG
+* [X] rsync rhel6 repos
