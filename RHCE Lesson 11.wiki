@@ -1,0 +1,124 @@
+== Managing Ansible Logs ==
+
+    *Understanding Ansible Logging*
+    
+    * By default Ansible is not configured to log its output anywhere
+    * Set log_path in ansible.cfg to write logs to a specific destination: 
+        * Create this file in the project directory, /var/log ins not writable by 
+          the Ansible user and will only work when running the playbook with sudo
+    * When using this, you should also use log rotation
+    * Check ansible playbook syntax: 
+        
+        `ansible-playbook --syntax-check playbook`
+        
+== Using the Debug Module ==
+
+    *Using the debug Module*
+    
+    * Variables play an important role in playbooks
+    * The `debug` module is used to show values of variables in playbooks
+    * It can also be used to show messages in specific error situations
+
+        `ansible-doc debug`
+        
+== Using Check Mode ==
+
+    *Using Check Mode*
+    
+    * Use `ansible-playbook --check` on a playbook to perform check mode; this 
+      will show what would happen when running the playbook wothout actually
+      changing anything: 
+        * Modules in the playbook must support check mode
+        * check mode doesn't always work well in conditionals
+    * Set `check_mode: yes` within a task to always run that specific task in check 
+      mode: 
+        * This is useful for checking individual tasks
+        * When setting `check_mode: no` for a task, this task will never run in check mode
+        * Noticie that `check_nmode: no` is new since Ansible 2.6, and replaces the 
+          `always_run: yes` option from earlier versions
+
+    *Using Check Mode on Templates*
+    
+    * Add `--diff` to an Ansible playbook run to see differences that would be 
+      made by template files on a managed hosts: 
+        * `ansible-playbook --check --diff myplaybook.yml`
+
+== Using Modules for Troubleshooting and Testing ==
+
+    *Understanding Modules to Check*
+    
+    * `uri`: checks content that is returned from a specific URL
+    * `script`: runs a script from the control node on the manages hosts
+    * `stat`: checks that status of fules; use it to register a variable and next test to 
+      determine if a file exits
+    * `assert`: this module will fail with an error if a specific condition is not met
+
+    *Understanding stat*
+    
+    * The `stat` module can be used to check on file status
+    * It resturns a dictionary that contains a stat field which can have multiple 
+      values: 
+        * `atime`: last access tiem of the file
+        * `isdir`: true if file is a directory
+        * `exists`: true if file exists
+        * `size`: size in bytes
+
+== Troubleshooting Connection Issues ==
+
+    *Understanding Connection Issues*
+    
+    * Connection issues include the folowing: 
+        * Issues setting up the physucal connection
+        * Issues running tasks as the target user
+
+    *Analyzing Authentication Issues*
+    
+    * Confirm the `remote_user` setting and existence of remote user on the 
+      managed host
+    * Confirm host key setup
+    * Verify `become` and `become_user`
+    * Check that `sudo` is configured correctly
+
+    *Connecting to Managed Hosts*
+    
+    * When a host is available at different IP addresses / names, you can use 
+      `ansible_host` in inventory to specify how to connect
+    * This ensures that the connection is made in a persistent way, using the 
+      right interface
+    * `web.example.com ansible_host=192.168.4.100`
+
+    *Using Ad Hoc Commands to Test Connectivity*
+    
+    * The `ping` module was developed tot test connectivity
+    * Use the `--become` option to also test privilege escalation: 
+        * `ansible ansible1 -m ping`
+        * `ansible ansible1 -m ping --become`
+    * Use the `command` module to test different items: 
+        * `ansible ansible1 -m command -a 'df'`
+        * `ansible ansible1 -m command -a 'free -m`
+
+    *Analyzing Playbook Errors*
+    
+    * Start by reading output messages
+    * Next, add verbosity using `-v`: 
+        * `-v`: the output data is displayed
+        * `-vv`: output as well as input data is shown
+        * `-vvv`: add connection information
+        * `-vvvv`: add additional information, for instance, about scripts that are executed 
+          and the user who's running tasks
+
+    *Best Practices*
+    
+    * When developing Playbooks, some best practices should be applied
+    * The `name` of plays and tasks should make sense to clearly see what's 
+      happening
+    * Include comments to clarify difficult bits
+    * Use white spacess to make playbooks more readable
+    * Indentation is essentaial
+    * Keep playbook simple and small
+    * Use includes when playbooks risk getting too big
+
+== Lab: Troubleshooting Ansible ==
+
+    * Run the playbook in the lesson11/lab directory. Make sure to get out all 
+      errors
