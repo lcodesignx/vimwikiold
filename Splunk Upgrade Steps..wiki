@@ -1,0 +1,13 @@
+== Splunk Cluster Upgrade ==
+
+    * Upgrade the master node
+    * Put the master into maintenance mode: 
+        `splunk enable maintenance-mode`
+        `splunk show maintenance-mode`
+    * Upgrade the peer nodes:
+        * upgrade the peer nodes one at a time
+        * to bring peer down prior to upgrade, use the `offline` command
+    * Upgrade the search heads
+    * Take the master out of maintenance mode:
+        * Run `splunk disable maintenance-mode` on the master
+        * Confirm master is not in maintenance mode `splunk show maintenance-mode`

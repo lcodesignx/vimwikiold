@@ -1,9 +1,7 @@
 TODO:
 
 * [ ] Set up httpd server for svn repos on RHEL7
-* [ ] close ticket for adding admin account to cerberus page in confluence
-* [ ] Remove /etc/X11/xorg.conf and replacing with previous version
-* [ ] Update /etc/X11/xorg.conf by following the NVIDIA pdf instructions
+* [ ] Upgrade Splunk cluster to 8.1.4. [[Splunk Upgrade Steps.]]
 
 DONE:
 
@@ -57,3 +55,6 @@ DONE:
 * [X] Configure sewip mariadb database to lower case insensitive.
 * [X] Splunk STIG
 * [X] rsync rhel6 repos
+* [X] close ticket for adding admin account to cerberus page in confluence
+* [X] Remove /etc/X11/xorg.conf and replacing with previous version
+* [X] Update /etc/X11/xorg.conf by following the NVIDIA pdf instructions
