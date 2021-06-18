@@ -1,0 +1,26 @@
+== Understanding Modules Related to Software Management ==
+
+    *Understanding Software Management Modules - 1*
+    
+    * `package`: Distribution agnostic module to manage packages
+    * `win_package`: Manages packages on Windows
+    * `apt`: Manages packages on Ubuntu
+    * `yum`: Manages packages on RHEL
+    * `yum_repository`: Manages yum repositories
+
+    *Understanding Software Management Modules - 2*
+    
+    * `package_facts`: Returns information about packages as facts
+    * `rpm_key`: Adds or removes GPG keys from an RPM package database
+    * `redhat_subscription`: Users the `subscription_manager` command to manages subscriptions
+    * `rhn_register`: Managed Red Hat Network registraion using `rhnreg_ks`
+    * `rhn_channel`: manages RHN Channel subscription
+    * Other modules are available at https://docs.ansib.e.com/ansible/latest/modules/list_of_packaging_modules.html
+
+== Lab: Managing Software ==
+
+    * Set up a repository on control.example.com. This repository should offer multiple files 
+      including the nmap file. Provide a file list using variables
+    * Configure ansible1 and ansible2 to use the repository that is provided through the 
+      packages repository
+    * Install the nmap package from this repository

@@ -1,0 +1,28 @@
+== Understanding Modules Related to User Management ==
+
+    *Modules Related to User Management*
+    
+    * `user`: Manages Users and their common properties
+    * `group`: Manages Groups and their common properties
+    * `pamd`: Configures PAM
+    * `authorized_key`: copies SSH public keys from Ansible control to the target user .ssh/authorized_keys
+    * `lineinfile`: modifies configuration files based on regex
+
+    *Understanding authorized_key*
+    
+    * The `authorized_key` module can be used to copy a user public key to the ~/.ssh/authorized_keys file
+    * This is useful to enable SSH access from remote machines, such as the Ansible controle node
+    * Not that this wil lonly copy the public key, and doese NOT generate any SSH keys
+    * To generate SSH kyes for new users, user the `user` module and its option `generate_ssh_key`
+
+== Lab: Managing Users ==
+
+    * Continue on the setup_sudo configuration from the previous example, and make it a complete solution to 
+      create users meeting the following requirements:
+        * Groups in the vars/defaults file should be created if they don't exist yet
+        * Use a variable file to fefine users and the groups these users should be a member of, and create the 
+          following users:
+            * bill and bob are memebers of the group admins
+            * bea and betty are memebres of the group developers
+            * brenda and benny are members of the group dbas
+        * Do this in a way that SSH authorized keys are set up automatically as well
