@@ -1,0 +1,14 @@
+== Understanding Modules for Managing Storage ==
+
+    *Understanding Modules for Managing Storage*
+    
+    * `parted`: runs the parted utility
+    * `lvg`: create LVM volume group
+    * `lvol`: creates LVM logical volumes
+    * `filesystem`: managed filesystems
+    * `mount`: manages mounts
+    * `vdo`: manages VDO storage
+
+== Lab: Managing Storage ==
+
+    * Write a playbook that detects all storage devices on managed systems

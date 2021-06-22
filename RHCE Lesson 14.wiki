@@ -1,0 +1,21 @@
+== Understanding Modules for Managing Processes and Tasks ==
+
+    *Modules for Managing Processes and Tasks*
+    
+    * `cron`: uses cron to schedule a job
+    * `at`: uses at to run a future job
+    * `file`: because some tasks simpoly don't have a specific Ansible module
+    * `service`: manages services
+    * `service_facts`: uses information about services as facts
+    * `systemd`: manages systemd services
+
+    *Understanding the cron Module*
+    
+    * The `cron` module has a `name` option, which is useful to uniquely identify entries in crontab
+    * Notice that this option has no meaning for cron, but it helps Ansible in managing crontab entries
+
+== Lab: Managing Process and Tasks ==
+
+    * Set the default boot state of the file servers to multi-user.target
+    * Reboot your server after doing so
+    * Configure your playbook such that it will show the message "successfully rebooted" once it is available again
