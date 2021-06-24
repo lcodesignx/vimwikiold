@@ -1,0 +1,7 @@
+== Passwords Retrieved ==
+
+* level0: <!--The password for natas1 is gtVrDuiDfck831PqWsLEZy5gyDz1clto -->
+* level1: <!--The password for natas2 is ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi -->
+* level2: <input type="hidden" name="password_solution" value="ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi">
+* level3: sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
+* level4: Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
