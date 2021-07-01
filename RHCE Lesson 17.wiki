@@ -44,7 +44,7 @@
           
     *Task 5: Managing File Content*
     
-    * Use an automated solution to create the contents of the `/etc/hosts` fiel on all 
+    * Use an automated solution to create the contents of the `/etc/hosts` field on all 
       managed hosts based on the information that was found from the inventory
     * Tip! Use templates and ansible facts
 

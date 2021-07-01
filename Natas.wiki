@@ -5,3 +5,6 @@
 * level2: <input type="hidden" name="password_solution" value="ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi">
 * level3: sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
 * level4: Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
+* level5: iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+* level6: aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
+* level7: 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9

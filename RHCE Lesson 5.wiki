@@ -89,7 +89,7 @@
     * Variables can be assigned to hosts and to groups of hosts
     * The old way of doing so is through inventory, but this is now deprecated because it 
       mixes two types of information in one file
-    * Insted, you should use directories to populate host and group variables
+    * Instead, you should use directories to populate host and group variables
 
     *Defining Host Variables Through Inventory*
     
