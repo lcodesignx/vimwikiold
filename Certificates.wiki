@@ -12,3 +12,27 @@
       `sudo openssl x509 -in new.cer.csr -out new.cert.cert -req -signkey new.cert.key -days NNN`
       `sudo cp new.cert.cert /etc/ssl/certs/server.crt`
       `sudo cp new.cert.key /etc/ssl/private/server.key`
+
+== Set Up HTTPD with SSL ==
+
+    * Install mod_ssl module: 
+        `yum install mod_ssl`
+    * Enable mod_ssl module: 
+        `apachectl -M | grep ssl`
+    * Generate SSL certificate: 
+        `openssl req -newkey rsa:2048 -nodes -keyout /etc/pki/tls/private/httpd.key -x509 -days 365 -out /etc/pki/tls/certs/httpd.crt`
+    * Configure HTTPD web-server with new SSL certificates: 
+        `FROM:`
+        `SSLCertificateFile /etc/pki/tls/certs/localhost.crt`
+        `SSLCertificateKeyFile /etc/pki/tls/private/localhost.key`
+        `TO:`
+        `SSLCertificateFile /etc/pki/tls/certs/httpd.crt`
+        `SSLCertificateKeyFile /etc/pki/tls/private/httpd.key`
+    * Redirect all HTTP traffic to HTTPS: 
+        `<VirtualHost _default_:80>`
+            `Servername webserver`
+            `Redirect permanent / https://webserver/`
+        `</VirtualHost>`
+    * Restart HTTPD: 
+        `systemctl restart httpd`
+        
