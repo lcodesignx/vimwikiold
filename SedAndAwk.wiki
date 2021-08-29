@@ -1,0 +1,22 @@
+== Specifying Simple Instructions ==
+
+    * Substitution: 
+        `sed s/MA/Massachusetts/ list`
+    * Requiring quotes: 
+        `sed 's/ MA/, Massachusetts/' list`
+        
+    *Script Files*
+    
+    `sed -f sedscr list`
+    
+    *Suppressing automatic display of input lines*
+    
+    `sed -n -e 's/MA/Massachusetts/p' list`
+    
+    *Summary of options*
+    
+    | *Option* | *Description*                            |
+    |----------|------------------------------------------|
+    | -e       | Editing instruction follows              |
+    | -f       | Filename of script follows               |
+    | -n       | Suppress automatic output of input lines |
