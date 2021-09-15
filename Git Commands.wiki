@@ -17,3 +17,5 @@
     `git commit -m "message"`
     `git push origin [branch name]`
     `create pull request`
+*Copy ssh key to clipboard*
+    `xclip -selection clipboard < ~/.ssh/id_rsa.pub`
