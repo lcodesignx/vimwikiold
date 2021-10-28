@@ -1,0 +1,5 @@
+== Puppet 6 Essentials ==
+
+== Modules ==
+
+*[[Chapter 3]]: Working with Manifests*

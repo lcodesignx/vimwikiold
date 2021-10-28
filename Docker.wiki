@@ -19,3 +19,10 @@
     * [[DODS - Chapter 2]]: Docker Swarm Management
     * [[DODS - Chapter 3]]: Docker Swarm Services
     * [[DODS - Chapter 4]]: Docker Compose
+
+== Docker Admin Tasks: ==
+
+    * Inspect Volume Size:
+        * `docker system df`
+    * Figure out which volume is taking up space in Docker VM:
+        * `docker system df -v`

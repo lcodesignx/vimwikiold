@@ -1,11 +1,7 @@
 TODO:
 
-* [ ] Set up httpd server for svn repos on RHEL7
-<<<<<<< HEAD
-* [ ] Upgrade Splunk cluster to 8.1.4. [[Splunk Upgrade Steps.]]
-=======
-* [ ] Update /etc/X11/xorg.conf by following the NVIDIA pdf instructions
->>>>>>> 07ba25373b3e269b057fc3f12b73d3f9a01edb97
+* [ ] Install bamboo plugin for MATLAB
+* [ ] Update bamboo application to latest version 8.0.3
 
 DONE:
 
@@ -61,7 +57,6 @@ DONE:
 * [X] rsync rhel6 repos
 * [X] close ticket for adding admin account to cerberus page in confluence
 * [X] Remove /etc/X11/xorg.conf and replacing with previous version
-<<<<<<< HEAD
 * [X] Update /etc/X11/xorg.conf by following the NVIDIA pdf instructions
-=======
->>>>>>> 07ba25373b3e269b057fc3f12b73d3f9a01edb97
+* [X] Set up httpd server for svn repos on RHEL7
+* [X] Upgrade Splunk cluster to 8.1.4. [[Splunk Upgrade Steps.]]

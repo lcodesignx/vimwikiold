@@ -9,6 +9,7 @@
 == DevOps ==
     
     * [[Docker]]: Introduction to Docker Containers
+    * [[Puppet]]: Introduction to Puppet
     * [[Vagrant]]: Introduction to Vagrant
     * [[CKDA]]: Certified Kubernetes Application Developer
     * [[RHCSA]]: Red Hat Certified System Administrator
