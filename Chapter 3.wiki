@@ -12,6 +12,7 @@
         `puppet config print config`
         `puppet config print manifest --section master --environment production`
         `puppet config set environment dev --section=agent`
+        `puppet config print runinterval`
         
 == Manifest Files ==
     
@@ -27,7 +28,8 @@
     * `puppet describe service`
     * `puppet resource service [service_name]`
     * `puppet resource package [package_name]`
-    * `puppet config print runinterval`
+    * `puppet resource service chronyd --edit`
+    * `puppet resource package chrony --edit`
 
 == Certificates ==
     
