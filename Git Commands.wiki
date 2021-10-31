@@ -19,3 +19,12 @@
     `create pull request`
 *Copy ssh key to clipboard*
     `xclip -selection clipboard < ~/.ssh/id_rsa.pub`
+*Checkout new branch and merge into master*
+    `git branch -a (check current branch)`
+    `git checkout -b <branch_name>`
+    `git branch -a (check current branch)`
+    develop code:
+        `git add -A`
+        `git commit -m "some commit message"`
+        `git checkout master`
+        `git merge new-branch`
