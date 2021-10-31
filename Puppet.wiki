@@ -1,5 +1,65 @@
 == Puppet 6 Essentials ==
 
+== Introduction to Puppet Manifests ==
+
+    *Configuration*
+    
+    * Usint the puppet config command we can view and set configuration parameters including 
+      the path to the manifest. If the manifest is a directory then each manifest is processed
+      in alphanumeric order.
+    
+        `puppet config print`
+        `puppet config print config`
+        `puppet config print manifest --section master --environment production`
+        `puppet config set environment dev --section=agent`
+        `puppet config print runinterval`
+        
+== Manifest Files ==
+    
+    * The puppet agent can apply local manifests by specifying the path. If the path is a directory 
+      all manifests are processed. If the agent connects to the server the agent the manifests are 
+      located by the settings of the server.
+      
+        `vim /etc/puppetlabs/code/environments/production/manifests/site.pp`
+        
+== List Resources and Help ==
+    
+    * `puppet resource --type1`
+    * `puppet describe service`
+    * `puppet resource service [service_name]`
+    * `puppet resource package [package_name]`
+    * `puppet resource service chronyd --edit`
+    * `puppet resource package chrony --edit`
+
+== Certificates ==
+    
+    * `puppet cert list`
+    * `puppetserver ca list`
+    * `puppetserver ca list --all`
+
 == Modules ==
 
-*[[Chapter 3]]: Working with Manifests*
+    * `puppet module install puppetlabs/apache`
+    * `puppet apply -e 'include apache'`
+    * `puppet module list`
+
+== Gather System Information ==
+
+    * `facter`
+    * `facter --puppet --show-legacy`
+    * `facter --puppet --show-legacy | grep osfamily`
+
+== Backing up and Restoring Files ==
+
+    *Backing up and Listing Files*
+    
+    * `puppet filebucket --local backup [FILENAME]`
+    * `puppet filebucket --local list`
+
+    *Restoring Files*
+    
+    * `puppet filebucket --local get [FILEHASH]`
+    * `puppet filebucket --local diff [FILEHASH] [CURRENTFILE]`
+    * `puppet filebucket --local restore [CURRENTFILE] [FILEHASH]`
+
+== Templates ==

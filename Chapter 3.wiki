@@ -40,5 +40,3 @@
 
     * `puppet module install puppetlabs/apache`
     * `puppet apply -e 'include apache'`
-
-== Create Environments ==
