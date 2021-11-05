@@ -65,6 +65,7 @@
     * [[Ipmitool]]: Using Ipmitool to view system information
     * [[Rsync]]: Understanding rsync command and examples
     * [[Autofs]]: Understanding automount
+    * [[iSCSI]]: Understanding iSCSI targets and initiators
     * [[Xargs]]: Understanding xargs command and examples
     * [[FreeIPA]]: Install and setup FreeIPA server
     * [[Storage]]: Managing storage

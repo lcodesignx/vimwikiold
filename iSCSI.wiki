@@ -1,0 +1,12 @@
+== Configure iSCSI Initiator ==
+
+    *Install Initiator Packages*
+    
+        `yum install iscsi-initiator-utils -y`
+        `systemctl enable --now iscsid iscsi`
+        
+    *Discovery*
+    
+        `iscsiadm --mode idscovery --type sendtargets --portal [TARGETIP]`
+        `iscsiadm --m node -T [TARGETIQN] -l`
+        `iscsiadm -m session -P 0`
