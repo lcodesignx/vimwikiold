@@ -25,7 +25,7 @@
     * [[VirtualBox CLI]]: An Introduction to the VirtualBox CLI
     * [[Python-Unix]]: Running shell commands in python
     * [[Java]]: Introduction to Java Programming
-    * [[Java-Projects]]: list of projects and details about implementation and design
+    * [[Java-Projects]]: Projects and details about implementation and design
     * [[NodeJS]]: reference
     * [[Bash Programming]]: Scripting the GNU/Linux shell
     * [[C-Programming]]: Introduction to C programming
@@ -40,6 +40,7 @@
     * [[Splunk]]: command line interface
     * [[Cybersecurity Ops with bash:]] Security operations with bash
     * [[OverTheWire]]: CTF Challenges
+    * [[STIGs]]: Revision History
 
 == JHUAPL ==
     
